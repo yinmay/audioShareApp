@@ -1,10 +1,19 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React, { FC } from 'react'
+import { View, Text, Button } from 'react-native'
 
-const home = () => {
+import { RootStackNavigation } from '@/navigator'
+interface IProps {
+	navigation: RootStackNavigation
+}
+const home: FC<IProps> = props => {
+	const onPress = () => {
+		const { navigation } = props
+		navigation.navigate('Detail', { id: 100 })
+	}
 	return (
 		<View>
-			<Text>home sda </Text>
+			<Text>home </Text>
+			<Button title="Detail" onPress={onPress} />
 		</View>
 	)
 }

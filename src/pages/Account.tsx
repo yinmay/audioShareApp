@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { View, Text, Button } from 'react-native'
 
-import { RootStackNavigation } from '@/navigator'
+import { RootStackNavigation } from '@/navigator/index'
 interface IProps {
 	navigation: RootStackNavigation
 }

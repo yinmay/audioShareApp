@@ -1,29 +1,58 @@
-import React from 'react'
+import React, { FC, useEffect } from 'react'
 import { View, Text } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native'
+import {
+	NavigationContainer,
+	RouteProp,
+	TabNavigationState,
+} from '@react-navigation/native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
-import Home from '@/pages/Home'
+import Home from '@/pages/home'
 import Listen from '@/pages/Listen'
 import Found from '@/pages/Found'
 import Account from '@/pages/Account'
-
+import { RootStackNavigation, RootStackParamList } from './index'
+import Icon from '@/assets/iconfont/index'
+import HomeTabs from './HomeTabs'
 export type BottomTabParamList = {
-	Home: undefined
+	HomeTabs: undefined
 	Listen: undefined
 	Found: undefined
 	Account: undefined
 }
 
-const Tab = createMaterialBottomTabNavigator<BottomTabParamList>()
+type Route = RouteProp<RootStackParamList, 'BottomTabs'> & {
+	state?: TabNavigationState
+}
 
-const BottomTabs = () => {
+interface IProps {
+	navigation: RootStackNavigation
+	route: Route
+}
+
+const Tab = createMaterialBottomTabNavigator<BottomTabParamList>()
+const BottomTabs: FC<IProps> = props => {
+	const getHeaderTitle = (route: Route): string => {
+		const routeName = route.state
+			? route.state.routes[route.state.index].name
+			: route.params?.screen || '3543'
+		return routeName
+	}
+	console.log(props.route)
+	useEffect(() =>
+		props.navigation.setOptions({ headerTitle: getHeaderTitle(props.route) }),
+	)
 	return (
 		// <NavigationContainer>
 		<Tab.Navigator activeColor="#e91e63" barStyle={{ backgroundColor: 'grey' }}>
 			<Tab.Screen
-				name="Home"
-				component={Home}
-				options={{ tabBarLabel: 'Home' }}
+				name="Home Tab"
+				component={HomeTabs}
+				options={{
+					tabBarLabel: 'Home',
+					tabBarIcon: ({ color, size }) => (
+						<Icon name="icon-rnApphome" color={color} size={size} />
+					),
+				}}
 			/>
 			<Tab.Screen
 				name="Listen"

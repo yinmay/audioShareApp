@@ -11,7 +11,9 @@ import BottomTabs from './BottomTabs'
 import Detail from '@/pages/detail'
 
 export type RootStackParamList = {
-	BottomTabs: undefined
+	BottomTabs: {
+		screen?: string
+	}
 	Detail: { id: number }
 }
 
@@ -37,8 +39,8 @@ const Navigator = () => {
 							},
 						}),
 					},
-				}}
-				headerMode="float">
+					headerMode: 'float',
+				}}>
 				<Stack.Screen name="BottomTabs" component={BottomTabs} />
 				<Stack.Screen name="Detail" component={Detail} />
 			</Stack.Navigator>

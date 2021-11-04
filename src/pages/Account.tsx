@@ -12,7 +12,7 @@ const Account: FC<IProps> = props => {
 	// }
 	return (
 		<View>
-			<Text>Account </Text>
+			<Text>Account</Text>
 			{/* <Button title="Detail" onPress={onPress} /> */}
 		</View>
 	)

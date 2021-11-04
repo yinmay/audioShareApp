@@ -6,7 +6,7 @@ import {
 	TabNavigationState,
 } from '@react-navigation/native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
-import Home from '@/pages/home'
+import Home from '@/pages/Home'
 import Listen from '@/pages/Listen'
 import Found from '@/pages/Found'
 import Account from '@/pages/Account'

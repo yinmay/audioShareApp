@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar, StyleSheet, Text, View } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import Home from '@/pages/home'
+import Home from '@/pages/Home'
 const Tab = createMaterialTopTabNavigator()
 
 const HomeTabs = () => {

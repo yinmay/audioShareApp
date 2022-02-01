@@ -6,6 +6,7 @@ const models = [home]
 export type RootState = {
 	home: typeof home.state //HomeState
 	loading: DvaLoadingState
+	carouselData: string[]
 }
 
 export default models

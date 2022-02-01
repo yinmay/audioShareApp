@@ -1,8 +1,10 @@
 import { Model, Effect } from 'dva-core-ts'
 import { Reducer } from 'redux'
+import { data } from './data'
 
 export interface HomeState {
 	num: number
+	carouselData: string[]
 }
 
 interface HomeModel extends Model {
@@ -19,7 +21,7 @@ interface HomeModel extends Model {
 	// subscriptions?: SubscriptionsMapObject
 }
 
-const initialState = { num: 0 }
+const initialState = { num: 0, carouselData: [] }
 
 function delay(time: number) {
 	return new Promise(resolve => {
@@ -31,10 +33,10 @@ const homeModel: HomeModel = {
 	namespace: 'home',
 	state: initialState,
 	reducers: {
-		add(state = initialState, { payload }) {
+		add(state = initialState) {
 			return {
 				...state,
-				num: state?.num + payload.num,
+				carouselData: [...data],
 			}
 		},
 	},

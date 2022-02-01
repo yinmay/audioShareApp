@@ -37,13 +37,18 @@ const BottomTabs: FC<IProps> = props => {
 			: route.params?.screen || '3543'
 		return routeName
 	}
-	console.log(props.route)
-	useEffect(() =>
-		props.navigation.setOptions({ headerTitle: getHeaderTitle(props.route) }),
+	console.log(props.route, '++++++++', props)
+	useEffect(
+		() =>
+			props.navigation.setOptions({ headerTitle: getHeaderTitle(props.route) }),
+		// props.navigation.setPrams({title})
 	)
 	return (
 		// <NavigationContainer>
-		<Tab.Navigator activeColor="#e91e63" barStyle={{ backgroundColor: 'grey' }}>
+		<Tab.Navigator
+			activeColor="#e91e63"
+			barStyle={{ backgroundColor: 'grey' }}
+			onPress={() => console.log(123)}>
 			<Tab.Screen
 				name="Home Tab"
 				component={HomeTabs}
@@ -57,10 +62,33 @@ const BottomTabs: FC<IProps> = props => {
 			<Tab.Screen
 				name="Listen"
 				component={Listen}
-				options={{ tabBarLabel: 'Listen' }}
+				options={{
+					tabBarLabel: 'Listen',
+					tabBarIcon: ({ color, size }) => (
+						<Icon name="icon-rnAppstar" color={color} size={size} />
+					),
+				}}
 			/>
-			<Tab.Screen name="Found" component={Found} />
-			<Tab.Screen name="Account" component={Account} />
+			<Tab.Screen
+				name="Found"
+				component={Found}
+				options={{
+					tabBarLabel: 'Found',
+					tabBarIcon: ({ color, size }) => (
+						<Icon name="icon-rnAppnew" color={color} size={size} />
+					),
+				}}
+			/>
+			<Tab.Screen
+				name="Account"
+				component={Account}
+				options={{
+					tabBarLabel: 'Account',
+					tabBarIcon: ({ color, size }) => (
+						<Icon name="icon-rnAppaccount" color={color} size={size} />
+					),
+				}}
+			/>
 		</Tab.Navigator>
 		// </NavigationContainer>
 	)

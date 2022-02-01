@@ -28,5 +28,3 @@ const HomeTabs = () => {
 }
 
 export default HomeTabs
-
-const styles = StyleSheet.create({})

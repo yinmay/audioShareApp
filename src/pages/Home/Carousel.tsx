@@ -1,12 +1,5 @@
-import React, { useRef, useCallback, useState } from 'react'
-import {
-	Image,
-	StyleSheet,
-	View,
-	Text,
-	Dimensions,
-	SafeAreaView,
-} from 'react-native'
+import React, { useRef, useState } from 'react'
+import { StyleSheet, View, SafeAreaView } from 'react-native'
 
 import SnapCarousel, {
 	Pagination,
@@ -14,30 +7,7 @@ import SnapCarousel, {
 	AdditionalParallaxProps,
 } from 'react-native-snap-carousel'
 
-import { viewportWidth, wp, hp } from '@/utils/index'
-
-const exampleItems = [
-	{
-		title: 'Item 1',
-		text: 'Text 1',
-	},
-	{
-		title: 'Item 2',
-		text: 'Text 2',
-	},
-	{
-		title: 'Item 3',
-		text: 'Text 3',
-	},
-	{
-		title: 'Item 4',
-		text: 'Text 4',
-	},
-	{
-		title: 'Item 5',
-		text: 'Text 5',
-	},
-]
+import { viewportWidth, wp } from '@/utils/index'
 
 const data = [
 	'https://snack-web-player.s3.us-west-1.amazonaws.com/v2/43/static/media/react-native-logo.79778b9e.png',
@@ -52,7 +22,6 @@ const itemWidth = sideWidth + wp(2) * 2
 
 const Carousel1 = () => {
 	const [activeIndex, setActiveIndex] = useState(0)
-	const [carouselItems, setCarouselItems] = useState(exampleItems)
 	const renderItem = (
 		{ item }: { item: string },
 		parallaxProps?: AdditionalParallaxProps,
@@ -78,8 +47,17 @@ const Carousel1 = () => {
 	const ref = useRef(null)
 	const getPage = () => {
 		return (
-			<View>
-				<Pagination dotsLength={data.length} activeDotIndex={activeIndex} />
+			<View style={styles.paginationWrapper}>
+				<Pagination
+					dotsLength={data.length}
+					activeDotIndex={activeIndex}
+					containerStyle={styles.paginationContainer}
+					dotContainerStyle={styles.dotContainer}
+					dotColor={'rgba(255, 255, 255, 0.92)'}
+					dotStyle={styles.paginationDot}
+					inactiveDotOpacity={0.4}
+					inactiveDotScale={0.6}
+				/>
 			</View>
 		)
 	}
@@ -90,11 +68,8 @@ const Carousel1 = () => {
 				backgroundColor: 'rebeccapurple',
 				paddingTop: 50,
 			}}>
-			<View>{getPage()}</View>
 			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
 				<SnapCarousel
-					// layout="default"
-					// ref={ref}
 					onSnapToItem={onSnapToItem}
 					data={data}
 					sliderWidth={sliderWidth}
@@ -103,9 +78,9 @@ const Carousel1 = () => {
 					hasParallaxImages
 					loop
 					autoplay
-					// onSnapToItem={index => setActiveIndex(index)}
 				/>
 			</View>
+			<View>{getPage()}</View>
 		</SafeAreaView>
 	)
 }
@@ -117,6 +92,26 @@ const styles = StyleSheet.create({
 		borderWidth: 3,
 		borderColor: 'red',
 	},
+	paginationContainer: {
+		position: 'absolute',
+		height: 16,
+		paddingVertical: 0,
+		borderRadius: 8,
+		top: -30,
+		backgroundColor: 'rgba(0, 0, 0, 0.2)',
+	},
+	paginationWrapper: {
+		alignContent: 'center',
+		alignItems: 'center',
+	},
+	paginationDot: {
+		width: 8,
+		height: 8,
+		borderRadius: 4,
+		marginHorizontal: 0,
+		backgroundColor: 'rgba(255,255,255,1)',
+	},
+	dotContainer: {},
 })
 
 export default Carousel1

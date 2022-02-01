@@ -5,23 +5,26 @@ import {
 	View,
 	Image,
 	FlatList,
-	ScrollView,
+	TouchableOpacity,
 } from 'react-native'
 import { GuessItem } from '../../models/index'
+import Touchable from '../../components/Touchable'
+
 interface IProps {
 	list: GuessItem[]
+	onPress: () => void
 }
 
-export const Guess: FC<IProps> = ({ list }) => {
-	const renderItem = ({ item }: { GuessItem }) => (
-		<View style={styles.item}>
+export const Guess: FC<IProps> = ({ list, onPress = () => {} }) => {
+	const renderItem = ({ item }: { item: GuessItem }) => (
+		<Touchable style={styles.item} onPress={() => onPress(item)}>
 			<Image source={{ uri: item.image }} style={styles.thumbnail} />
 			<View style={styles.rightContainer}>
 				<Text style={styles.title} numberOfLines={2}>
 					{item.title}
 				</Text>
 			</View>
-		</View>
+		</Touchable>
 	)
 	return (
 		<View style={styles.container123}>

@@ -3,10 +3,16 @@ import { DvaLoadingState } from 'dva-loading-ts'
 
 const models = [home]
 
+export interface GuessItem {
+	title: string
+	image: string
+}
+
 export type RootState = {
 	home: typeof home.state //HomeState
 	loading: DvaLoadingState
-	carouselData: string[]
+	carouselImages: string[]
+	guessList: GuessItem[]
 }
 
 export default models

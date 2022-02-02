@@ -1,16 +1,25 @@
 import React, { FC, useEffect } from 'react'
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import {
+	View,
+	Text,
+	StyleSheet,
+	ScrollView,
+	FlatList,
+	ListRenderItemInfo,
+} from 'react-native'
 import { Dispatch } from 'redux'
+import ChannelItem from './ChannelItem'
 
 import { connect, ConnectedProps } from 'react-redux'
 import { RootStackNavigation } from '@/navigator/index'
-import { RootState } from '@/models/index'
+import { RootState, IChannel } from '@/models/index'
 import Carousel from './Carousel'
 import Guess from './Guess'
 
 const mapStateToProps = ({ home }: RootState) => ({
 	carouselImages: home?.carouselImages,
 	guessList: home?.guessList,
+	channels: home?.channels,
 })
 
 const connector = connect(mapStateToProps)
@@ -21,15 +30,20 @@ interface IProps extends ModalState {
 	dispatch: Dispatch
 }
 const Home: FC<IProps> = props => {
-	const { dispatch, carouselImages = [], guessList } = props
+	const { dispatch, carouselImages = [], guessList, channels } = props
 
 	useEffect(() => {
 		dispatch({ type: 'home/getCarouselImages' })
 		dispatch({ type: 'home/getGuessList' })
+		dispatch({ type: 'home/getChannels' })
 	}, [])
 
 	const onPress = () => {
 		alert('ok')
+	}
+
+	const renderItem = ({ item }: ListRenderItemInfo<IChannel>) => {
+		return <ChannelItem item={item} onPress={onPress} />
 	}
 
 	return (
@@ -46,6 +60,7 @@ const Home: FC<IProps> = props => {
 				<Carousel data={carouselImages} />
 			</View>
 			<Guess list={guessList} onPress={onPress} {...props} />
+			<FlatList data={channels} renderItem={renderItem} />
 		</ScrollView>
 	)
 }

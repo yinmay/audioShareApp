@@ -40,3 +40,14 @@ export const CAROUSEL_IMAGES = [
 	'https://dummyimage.com/400x200/000/fff',
 	'https://dummyimage.com/400x200/green/fff',
 ]
+
+export const CHANNELS = [
+	{
+		id: 1,
+		title: Random.string('lower', 5),
+		remark: Random.string('lower', 50),
+		played: 200,
+		playing: 20,
+		image: 'https://dummyimage.com/80x80/666/fff',
+	},
+]

@@ -1,12 +1,13 @@
 import { Model, Effect } from 'dva-core-ts'
 import { Reducer } from 'redux'
-import { CAROUSEL_IMAGES, GUESS_LIST, GUESS_LIST2 } from './data'
-import { GuessItem } from './index'
+import { CAROUSEL_IMAGES, GUESS_LIST, GUESS_LIST2, CHANNELS } from './data'
+import { IGuess, IChannel } from './index'
 
 export interface HomeState {
 	// num: number
 	carouselImages: string[]
-	guessList: GuessItem[]
+	guessList: IGuess[]
+	channels: IChannel[]
 }
 
 interface HomeModel extends Model {
@@ -16,6 +17,7 @@ interface HomeModel extends Model {
 		getCarouselImages: Reducer<HomeState>
 		getGuessList: Reducer<HomeState>
 		getAnotherGuessList: Reducer<HomeState>
+		getChannels: Reducer<HomeState>
 		// fetchCarouselList: Reducer<HomeState>
 	}
 	effects: {
@@ -26,7 +28,11 @@ interface HomeModel extends Model {
 	// subscriptions?: SubscriptionsMapObject
 }
 
-const initialState = { carouselImages: [], guessList: [] }
+const initialState = {
+	carouselImages: [],
+	guessList: [],
+	channels: [],
+}
 
 function delay(time: number) {
 	return new Promise(resolve => {
@@ -54,6 +60,12 @@ const homeModel: HomeModel = {
 			return {
 				...state,
 				guessList: [...state.guessList, ...GUESS_LIST2],
+			}
+		},
+		getChannels(state = initialState) {
+			return {
+				...state,
+				channels: CHANNELS,
 			}
 		},
 	},

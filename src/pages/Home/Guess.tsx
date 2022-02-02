@@ -3,17 +3,17 @@ import { StyleSheet, Text, View, Image, FlatList } from 'react-native'
 import { Dispatch } from 'redux'
 
 import Icon from '@/assets/iconfont/index'
-import { GuessItem } from '../../models/index'
+import { IGuess } from '../../models/index'
 import Touchable from '../../components/Touchable'
 
 interface IProps {
-	list: GuessItem[]
+	list: IGuess[]
 	onPress: () => void
 	dispatch: Dispatch
 }
 
 export const Guess: FC<IProps> = ({ list, onPress = () => {}, dispatch }) => {
-	const renderItem = ({ item }: { item: GuessItem }) => (
+	const renderItem = ({ item }: { item: IGuess }) => (
 		<Touchable style={styles.item} onPress={() => onPress(item)}>
 			<Image source={{ uri: item.image }} style={styles.thumbnail} />
 			<View style={styles.rightContainer}>

@@ -9,7 +9,7 @@ interface IProps {
 
 const detail: FC<IProps> = props => {
 	const { route } = props
-	console.log(route.params, '==========================')
+
 	return (
 		<View>
 			<Text>detail</Text>

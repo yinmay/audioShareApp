@@ -1,6 +1,6 @@
 import { Model, Effect } from 'dva-core-ts'
 import { Reducer } from 'redux'
-import { CAROUSEL_IMAGES, GUESS_LIST } from './data'
+import { CAROUSEL_IMAGES, GUESS_LIST, GUESS_LIST2 } from './data'
 import { GuessItem } from './index'
 
 export interface HomeState {
@@ -15,6 +15,7 @@ interface HomeModel extends Model {
 	reducers?: {
 		getCarouselImages: Reducer<HomeState>
 		getGuessList: Reducer<HomeState>
+		getAnotherGuessList: Reducer<HomeState>
 		// fetchCarouselList: Reducer<HomeState>
 	}
 	effects: {
@@ -47,6 +48,12 @@ const homeModel: HomeModel = {
 			return {
 				...state,
 				guessList: [...GUESS_LIST],
+			}
+		},
+		getAnotherGuessList(state = initialState) {
+			return {
+				...state,
+				guessList: [...state.guessList, ...GUESS_LIST2],
 			}
 		},
 	},

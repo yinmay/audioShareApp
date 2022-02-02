@@ -1,21 +1,18 @@
 import React, { FC } from 'react'
-import {
-	StyleSheet,
-	Text,
-	View,
-	Image,
-	FlatList,
-	TouchableOpacity,
-} from 'react-native'
+import { StyleSheet, Text, View, Image, FlatList } from 'react-native'
+import { Dispatch } from 'redux'
+
+import Icon from '@/assets/iconfont/index'
 import { GuessItem } from '../../models/index'
 import Touchable from '../../components/Touchable'
 
 interface IProps {
 	list: GuessItem[]
 	onPress: () => void
+	dispatch: Dispatch
 }
 
-export const Guess: FC<IProps> = ({ list, onPress = () => {} }) => {
+export const Guess: FC<IProps> = ({ list, onPress = () => {}, dispatch }) => {
 	const renderItem = ({ item }: { item: GuessItem }) => (
 		<Touchable style={styles.item} onPress={() => onPress(item)}>
 			<Image source={{ uri: item.image }} style={styles.thumbnail} />
@@ -26,6 +23,11 @@ export const Guess: FC<IProps> = ({ list, onPress = () => {} }) => {
 			</View>
 		</Touchable>
 	)
+
+	const changeBatch = () => {
+		dispatch({ type: 'home/getAnotherGuessList' })
+	}
+
 	return (
 		<View style={styles.container123}>
 			<FlatList
@@ -35,6 +37,11 @@ export const Guess: FC<IProps> = ({ list, onPress = () => {} }) => {
 				keyExtractor={item => item.id}
 				style={styles.list}
 			/>
+			<Touchable onPress={changeBatch} style={styles.changeBatch}>
+				<Text>
+					<Icon name="icon-rnAppexchangerate" size={14} color="red" /> Load More
+				</Text>
+			</Touchable>
 		</View>
 	)
 }
@@ -97,5 +104,9 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		textAlign: 'center',
+	},
+	changeBatch: {
+		padding: 10,
+		alignItems: 'center',
 	},
 })

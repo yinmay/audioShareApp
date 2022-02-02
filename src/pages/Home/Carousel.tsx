@@ -27,9 +27,10 @@ const Carousel1: FC<IProps> = ({ data }) => {
 	) => {
 		return (
 			<ParallaxImage
-				style={{ height: '100%', width: itemWidth }}
+				style={{ height: '50%', width: itemWidth }}
 				containerStyle={{
-					...StyleSheet.absoluteFillObject,
+					height: 200,
+					// ...StyleSheet.absoluteFillObject,
 					resizeMode: 'cover',
 				}}
 				source={{
@@ -89,7 +90,6 @@ const styles = StyleSheet.create({
 		width: 400,
 		height: 200,
 		borderWidth: 3,
-		borderColor: 'red',
 	},
 	paginationContainer: {
 		position: 'absolute',

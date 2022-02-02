@@ -6,6 +6,7 @@ const models = [home]
 export interface GuessItem {
 	title: string
 	image: string
+	id: string
 }
 
 export type RootState = {

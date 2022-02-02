@@ -16,20 +16,23 @@ export const GUESS_LIST = [
 		image: 'https://dummyimage.com/80x80/000/fff',
 		id: 3,
 	},
+]
+
+export const GUESS_LIST2 = [
 	{
 		title: Random.string('lower', 50),
-		image: 'https://dummyimage.com/80x80/000/fff',
-		id: 4,
+		image: 'https://dummyimage.com/80x80/666/fff',
+		id: 1,
 	},
 	{
 		title: Random.string('lower', 50),
-		image: 'https://dummyimage.com/80x80/000/fff',
-		id: 5,
+		image: 'https://dummyimage.com/80x80/666/fff',
+		id: 2,
 	},
 	{
 		title: Random.string('lower', 50),
-		image: 'https://dummyimage.com/80x80/000/fff',
-		id: 6,
+		image: 'https://dummyimage.com/80x80/666/fff',
+		id: 3,
 	},
 ]
 

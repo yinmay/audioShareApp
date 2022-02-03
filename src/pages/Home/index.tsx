@@ -1,14 +1,18 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import {
 	View,
 	Text,
 	StyleSheet,
 	ScrollView,
 	FlatList,
+	NativeSyntheticEvent,
+	NativeScrollEvent,
 	ListRenderItemInfo,
 } from 'react-native'
 import { Dispatch } from 'redux'
 import ChannelItem from './ChannelItem'
+import Empty from '@/components/Empty'
+import { sideHeight } from './Carousel'
 
 import { connect, ConnectedProps } from 'react-redux'
 import { RootStackNavigation } from '@/navigator/index'
@@ -20,6 +24,7 @@ const mapStateToProps = ({ home }: RootState) => ({
 	carouselImages: home?.carouselImages,
 	guessList: home?.guessList,
 	channels: home?.channels,
+	gradientVisible: home?.gradientVisible,
 })
 
 const connector = connect(mapStateToProps)
@@ -31,6 +36,8 @@ interface IProps extends ModalState {
 }
 const Home: FC<IProps> = props => {
 	const { dispatch, carouselImages = [], guessList, channels } = props
+
+	// const [endReached, setEndReached] = useState<Boolean>(false)
 
 	useEffect(() => {
 		dispatch({ type: 'home/getCarouselImages' })
@@ -46,8 +53,39 @@ const Home: FC<IProps> = props => {
 		return <ChannelItem item={item} onPress={onPress} />
 	}
 
+	const onEndReached = () => {
+		// setEndReached(!endReached)
+		dispatch({ type: 'home/addChannels' })
+	}
+
+	const renderEmpty = () => {
+		return <Empty />
+	}
+
+	const onScroll = ({
+		nativeEvent,
+	}: NativeSyntheticEvent<NativeScrollEvent>) => {
+		const { dispatch, gradientVisible } = props
+
+		console.log(123)
+
+		let newGradientVisible = nativeEvent.contentOffset.y < sideHeight
+		console.log(newGradientVisible, gradientVisible)
+		if (gradientVisible !== newGradientVisible) {
+			dispatch({
+				type: `home/setState`,
+				payload: {
+					gradientVisible: newGradientVisible,
+				},
+			})
+		}
+	}
+
 	return (
 		<ScrollView>
+			<View style={{ width: 400, height: 200 }}>
+				<Carousel data={carouselImages} />
+			</View>
 			<View style={styles.header}>
 				<View style={{ flexDirection: 'row' }}>
 					<Text style={styles.headerTitle}>Guess what you like</Text>
@@ -56,11 +94,16 @@ const Home: FC<IProps> = props => {
 					<Text style={styles.moreTitle}>More</Text>
 				</View>
 			</View>
-			<View style={{ width: 400, height: 200 }}>
-				<Carousel data={carouselImages} />
-			</View>
 			<Guess list={guessList} onPress={onPress} {...props} />
-			<FlatList data={channels} renderItem={renderItem} />
+			<FlatList
+				data={channels}
+				renderItem={renderItem}
+				keyExtractor={(item: IChannel) => `item-${item.id}`}
+				onEndReached={onEndReached}
+				onEndReachedThreshold={0.1}
+				ListEmptyComponent={renderEmpty}
+				onScroll={onScroll}
+			/>
 		</ScrollView>
 	)
 }

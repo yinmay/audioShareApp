@@ -31,18 +31,26 @@ interface IProps {
 
 const Tab = createMaterialBottomTabNavigator<BottomTabParamList>()
 const BottomTabs: FC<IProps> = props => {
-	const getHeaderTitle = (route: Route): string => {
+	const setOptions = () => {
+		const { navigation, route } = props
 		const routeName = route.state
 			? route.state.routes[route.state.index].name
-			: route.params?.screen || '3543'
-		return routeName
+			: route.params
+			? route.params.screen
+			: 'HomeTabs'
+		if (routeName === 'HomeTabs') {
+			navigation.setOptions({
+				headerTitle: '',
+				headerTransparent: true,
+			})
+		} else {
+			navigation.setOptions({
+				headerTitle: routeName,
+				headerTransparent: false,
+			})
+		}
 	}
-	console.log(props.route, '++++++++', props)
-	useEffect(
-		() =>
-			props.navigation.setOptions({ headerTitle: getHeaderTitle(props.route) }),
-		// props.navigation.setPrams({title})
-	)
+	useEffect(() => setOptions())
 	return (
 		// <NavigationContainer>
 		<Tab.Navigator

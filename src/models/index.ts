@@ -25,4 +25,9 @@ export interface IChannel {
 	playing: number
 }
 
+export interface iCarouselImage {
+	image: string
+	colors: string[]
+}
+
 export default models

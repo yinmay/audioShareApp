@@ -1,11 +1,18 @@
 import { Model, Effect } from 'dva-core-ts'
 import { Reducer } from 'redux'
-import { CAROUSEL_IMAGES, GUESS_LIST, GUESS_LIST2, CHANNELS } from './data'
-import { IGuess, IChannel } from './index'
+import {
+	CAROUSEL_IMAGES,
+	GUESS_LIST,
+	GUESS_LIST2,
+	CHANNELS,
+	CHANNELS2,
+} from './data'
+import { IGuess, IChannel, iCarouselImage } from './index'
 
 export interface HomeState {
-	// num: number
-	carouselImages: string[]
+	activeCarouselIndex: number
+	gradientVisible: boolean
+	carouselImages: iCarouselImage[]
 	guessList: IGuess[]
 	channels: IChannel[]
 }
@@ -18,6 +25,8 @@ interface HomeModel extends Model {
 		getGuessList: Reducer<HomeState>
 		getAnotherGuessList: Reducer<HomeState>
 		getChannels: Reducer<HomeState>
+		addChannels: Reducer<HomeState>
+		setState: Reducer<HomeState>
 		// fetchCarouselList: Reducer<HomeState>
 	}
 	effects: {
@@ -32,6 +41,8 @@ const initialState = {
 	carouselImages: [],
 	guessList: [],
 	channels: [],
+	activeCarouselIndex: 0,
+	gradientVisible: true,
 }
 
 function delay(time: number) {
@@ -44,6 +55,12 @@ const homeModel: HomeModel = {
 	namespace: 'home',
 	state: initialState,
 	reducers: {
+		setState(state, { payload, select }) {
+			return {
+				...state,
+				...payload,
+			}
+		},
 		getCarouselImages(state = initialState) {
 			return {
 				...state,
@@ -65,7 +82,13 @@ const homeModel: HomeModel = {
 		getChannels(state = initialState) {
 			return {
 				...state,
-				channels: CHANNELS,
+				channels: [...CHANNELS],
+			}
+		},
+		addChannels(state = initialState) {
+			return {
+				...state,
+				channels: [...CHANNELS, ...CHANNELS],
 			}
 		},
 	},

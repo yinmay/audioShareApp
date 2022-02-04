@@ -1,13 +1,15 @@
+import axios from 'axios'
 import { Model, Effect } from 'dva-core-ts'
+
 import { Reducer } from 'redux'
-import {
-	CAROUSEL_IMAGES,
-	GUESS_LIST,
-	GUESS_LIST2,
-	CHANNELS,
-	CHANNELS2,
-} from './data'
-import { IGuess, IChannel, iCarouselImage } from './index'
+import { IGuess, IChannel, iCarouselImage, IInfo, RootState } from './index'
+
+const REQUEST_URL =
+	'https://www.fastmock.site/mock/0a1e1812d969fae03fa14074df4989a6/mock'
+
+const CAROUSEL_URL = `${REQUEST_URL}/api/carousel`
+const GUESS_URL = `${REQUEST_URL}/api/guess`
+const CHANNEL_URL = `${REQUEST_URL}/api/channel`
 
 export interface HomeState {
 	activeCarouselIndex: number
@@ -15,26 +17,22 @@ export interface HomeState {
 	carouselImages: iCarouselImage[]
 	guessList: IGuess[]
 	channels: IChannel[]
+	info: IInfo
+	refreshing: boolean
 }
 
 interface HomeModel extends Model {
 	namespace: 'home'
 	state?: HomeState
 	reducers?: {
-		getCarouselImages: Reducer<HomeState>
-		getGuessList: Reducer<HomeState>
-		getAnotherGuessList: Reducer<HomeState>
-		getChannels: Reducer<HomeState>
-		addChannels: Reducer<HomeState>
 		setState: Reducer<HomeState>
-		// fetchCarouselList: Reducer<HomeState>
 	}
 	effects: {
 		asyncAdd: Effect
+		fetchCarouselImages: Effect
+		fetchGuessList: Effect
+		fetchChannelList: Effect
 	}
-	//ReducersMapObject | ReducersMapObjectWithEnhancer
-	// effects?: EffectsMapObject
-	// subscriptions?: SubscriptionsMapObject
 }
 
 const initialState = {
@@ -43,61 +41,76 @@ const initialState = {
 	channels: [],
 	activeCarouselIndex: 0,
 	gradientVisible: true,
-}
-
-function delay(time: number) {
-	return new Promise(resolve => {
-		return setTimeout(resolve, time)
-	})
+	refreshing: false,
+	info: {
+		page: 1,
+		result: 3,
+	},
 }
 
 const homeModel: HomeModel = {
 	namespace: 'home',
 	state: initialState,
 	reducers: {
-		setState(state, { payload, select }) {
+		setState(state, { payload }) {
 			return {
 				...state,
 				...payload,
 			}
 		},
-		getCarouselImages(state = initialState) {
-			return {
-				...state,
-				carouselImages: [...CAROUSEL_IMAGES],
-			}
-		},
-		getGuessList(state = initialState) {
-			return {
-				...state,
-				guessList: [...GUESS_LIST],
-			}
-		},
-		getAnotherGuessList(state = initialState) {
-			return {
-				...state,
-				guessList: [...state.guessList, ...GUESS_LIST2],
-			}
-		},
-		getChannels(state = initialState) {
-			return {
-				...state,
-				channels: [...CHANNELS],
-			}
-		},
-		addChannels(state = initialState) {
-			return {
-				...state,
-				channels: [...CHANNELS, ...CHANNELS],
-			}
-		},
 	},
 	effects: {
-		*asyncAdd({ payload }, { call, put }) {
-			yield call(delay, 300)
-			yield put({ type: 'add', payload })
+		*fetchCarouselImages(_, { call, put }) {
+			const {
+				data: { list },
+			} = yield call(axios.get, CAROUSEL_URL)
+			yield put({
+				type: 'setState',
+				payload: {
+					carouselImages: list,
+				},
+			})
+		},
+		*fetchGuessList(_, { call, put }) {
+			const {
+				data: { data },
+			} = yield call(axios.get, GUESS_URL)
+
+			yield put({
+				type: 'setState',
+				payload: {
+					guessList: data,
+				},
+			})
+		},
+
+		*fetchChannelList({ type, payload }, { call, put, select }) {
+			const { info, channels: list } = yield select(
+				(state: RootState) => state.home,
+			)
+			const { refreshing } = payload
+
+			yield put({
+				type: 'setState',
+				payload: {
+					refreshing,
+				},
+			})
+
+			const page = refreshing ? 0 : info.page
+			const {
+				data: { data },
+			} = yield call(axios.get, CHANNEL_URL, {
+				params: { page },
+			})
+			const newList = refreshing ? data : list.concat(data)
+			yield put({
+				type: 'setState',
+				payload: {
+					channels: newList,
+				},
+			})
 		},
 	},
 }
-
 export default homeModel

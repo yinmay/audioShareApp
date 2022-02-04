@@ -25,6 +25,7 @@ const mapStateToProps = ({ home }: RootState) => ({
 	guessList: home?.guessList,
 	channels: home?.channels,
 	gradientVisible: home?.gradientVisible,
+	refreshing: home?.refreshing,
 })
 
 const connector = connect(mapStateToProps)
@@ -35,14 +36,21 @@ interface IProps extends ModalState {
 	dispatch: Dispatch
 }
 const Home: FC<IProps> = props => {
-	const { dispatch, carouselImages = [], guessList, channels } = props
-
+	const {
+		dispatch,
+		carouselImages = [],
+		guessList,
+		channels,
+		refreshing,
+	} = props
 	// const [endReached, setEndReached] = useState<Boolean>(false)
-
+	const loadChannelData = () => {
+		dispatch({ type: 'home/fetchChannelList', payload: { refreshing: true } })
+	}
 	useEffect(() => {
-		dispatch({ type: 'home/getCarouselImages' })
-		dispatch({ type: 'home/getGuessList' })
-		dispatch({ type: 'home/getChannels' })
+		dispatch({ type: 'home/fetchCarouselImages' })
+		dispatch({ type: 'home/fetchGuessList' })
+		loadChannelData()
 	}, [])
 
 	const onPress = () => {
@@ -62,12 +70,14 @@ const Home: FC<IProps> = props => {
 		return <Empty />
 	}
 
+	const onRefresh = () => {
+		loadChannelData()
+	}
+
 	const onScroll = ({
 		nativeEvent,
 	}: NativeSyntheticEvent<NativeScrollEvent>) => {
 		const { dispatch, gradientVisible } = props
-
-		console.log(123)
 
 		let newGradientVisible = nativeEvent.contentOffset.y < sideHeight
 		console.log(newGradientVisible, gradientVisible)
@@ -103,6 +113,8 @@ const Home: FC<IProps> = props => {
 				onEndReachedThreshold={0.1}
 				ListEmptyComponent={renderEmpty}
 				onScroll={onScroll}
+				refreshing={refreshing}
+				onRefresh={onRefresh}
 			/>
 		</ScrollView>
 	)

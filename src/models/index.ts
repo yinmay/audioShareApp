@@ -30,4 +30,8 @@ export interface iCarouselImage {
 	colors: string[]
 }
 
+export interface IInfo {
+	page: number
+	result: number
+}
 export default models

@@ -8,11 +8,14 @@ import Touchable from '../../components/Touchable'
 
 interface IProps {
 	list: IGuess[]
-	onPress: () => void
+	onPress: (item: IGuess) => void
 	dispatch: Dispatch
 }
 
 export const Guess: FC<IProps> = ({ list, onPress = () => {}, dispatch }) => {
+	const changeBatch = () => {
+		dispatch({ type: 'home/fetchGuessList' })
+	}
 	const renderItem = ({ item }: { item: IGuess }) => (
 		<Touchable style={styles.item} onPress={() => onPress(item)}>
 			<Image source={{ uri: item.image }} style={styles.thumbnail} />
@@ -23,10 +26,6 @@ export const Guess: FC<IProps> = ({ list, onPress = () => {}, dispatch }) => {
 			</View>
 		</Touchable>
 	)
-
-	const changeBatch = () => {
-		dispatch({ type: 'home/getAnotherGuessList' })
-	}
 
 	return (
 		<View style={styles.container123}>
@@ -39,7 +38,7 @@ export const Guess: FC<IProps> = ({ list, onPress = () => {}, dispatch }) => {
 			/>
 			<Touchable onPress={changeBatch} style={styles.changeBatch}>
 				<Text>
-					<Icon name="icon-rnAppexchangerate" size={14} color="red" /> Load More
+					<Icon name="icon-rnAppexchangerate" size={14} color="red" /> More
 				</Text>
 			</Touchable>
 		</View>

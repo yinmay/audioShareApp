@@ -34,4 +34,26 @@ export interface IInfo {
 	page: number
 	result: number
 }
+
+// declare const enum ACT {
+// 	setState = 'SAY_HELLO',
+// 	INC_BY = 'INC_BY',
+// }
+
+// type IActionPayloadMapping = {
+// 	[ACT.SAY_HELLO]: { msg: string }
+// 	[ACT.INC_BY]: { count: number }
+// }
+
+// type IActionPayload<T> = T extends keyof IActionPayloadMapping
+// 	? IActionPayloadMapping[T]
+// 	: any
+
+// type IAction = {
+// 	[key in keyof typeof ACT]: {
+// 		type: typeof ACT[key]
+// 		payload?: IActionPayload<typeof ACT[key]>
+// 	}
+// }[keyof typeof ACT]
+
 export default models

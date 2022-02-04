@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
 	},
 	gradient: {
 		...StyleSheet.absoluteFillObject,
-		height: 260,
+		height: 460,
 	},
 	topTabBarView: {
 		flexDirection: 'row',

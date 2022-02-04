@@ -26,6 +26,7 @@ const mapStateToProps = ({ home }: RootState) => ({
 	channels: home?.channels,
 	gradientVisible: home?.gradientVisible,
 	refreshing: home?.refreshing,
+	hasMore: home?.hasMore,
 })
 
 const connector = connect(mapStateToProps)
@@ -42,15 +43,18 @@ const Home: FC<IProps> = props => {
 		guessList,
 		channels,
 		refreshing,
+		hasMore,
 	} = props
-	// const [endReached, setEndReached] = useState<Boolean>(false)
-	const loadChannelData = () => {
-		dispatch({ type: 'home/fetchChannelList', payload: { refreshing: true } })
+	const loadChannelData = payload => {
+		if (hasMore) {
+			dispatch({ type: 'home/fetchChannelList', payload: { ...payload } })
+		}
 	}
+
 	useEffect(() => {
 		dispatch({ type: 'home/fetchCarouselImages' })
 		dispatch({ type: 'home/fetchGuessList' })
-		loadChannelData()
+		loadChannelData({ loadMore: false })
 	}, [])
 
 	const onPress = () => {
@@ -62,8 +66,7 @@ const Home: FC<IProps> = props => {
 	}
 
 	const onEndReached = () => {
-		// setEndReached(!endReached)
-		dispatch({ type: 'home/addChannels' })
+		loadChannelData({ loadMore: true })
 	}
 
 	const renderEmpty = () => {
@@ -71,7 +74,7 @@ const Home: FC<IProps> = props => {
 	}
 
 	const onRefresh = () => {
-		loadChannelData()
+		loadChannelData({ refreshing: true })
 	}
 
 	const onScroll = ({
@@ -80,7 +83,6 @@ const Home: FC<IProps> = props => {
 		const { dispatch, gradientVisible } = props
 
 		let newGradientVisible = nativeEvent.contentOffset.y < sideHeight
-		console.log(newGradientVisible, gradientVisible)
 		if (gradientVisible !== newGradientVisible) {
 			dispatch({
 				type: `home/setState`,
@@ -91,38 +93,70 @@ const Home: FC<IProps> = props => {
 		}
 	}
 
+	const Header = () => {
+		return (
+			<View>
+				<View style={{ width: 400, height: 400 }}>
+					<Carousel data={carouselImages} />
+				</View>
+				<View style={styles.header}>
+					<View style={{ flexDirection: 'row' }}>
+						<Text style={styles.headerTitle}>Guess what you like</Text>
+					</View>
+					<View style={{ flexDirection: 'row' }}>
+						<Text style={styles.moreTitle}>More</Text>
+					</View>
+				</View>
+				<Guess list={guessList} onPress={onPress} {...props} />
+			</View>
+		)
+	}
+
+	const Footer = () => {
+		const { hasMore } = props
+		if (hasMore) {
+			return (
+				<View style={styles.text}>
+					<Text>loading</Text>
+				</View>
+			)
+		}
+
+		return (
+			<View style={styles.text}>
+				<Text>End</Text>
+			</View>
+		)
+	}
+
 	return (
-		<ScrollView>
-			<View style={{ width: 400, height: 200 }}>
-				<Carousel data={carouselImages} />
-			</View>
-			<View style={styles.header}>
-				<View style={{ flexDirection: 'row' }}>
-					<Text style={styles.headerTitle}>Guess what you like</Text>
-				</View>
-				<View style={{ flexDirection: 'row' }}>
-					<Text style={styles.moreTitle}>More</Text>
-				</View>
-			</View>
-			<Guess list={guessList} onPress={onPress} {...props} />
-			<FlatList
-				data={channels}
-				renderItem={renderItem}
-				keyExtractor={(item: IChannel) => `item-${item.id}`}
-				onEndReached={onEndReached}
-				onEndReachedThreshold={0.1}
-				ListEmptyComponent={renderEmpty}
-				onScroll={onScroll}
-				refreshing={refreshing}
-				onRefresh={onRefresh}
-			/>
-		</ScrollView>
+		// <ScrollView>
+		<FlatList
+			ListHeaderComponent={Header}
+			data={channels}
+			renderItem={renderItem}
+			keyExtractor={(item: IChannel) => `item-${item.id}`}
+			onEndReached={onEndReached}
+			onEndReachedThreshold={0.1}
+			ListEmptyComponent={renderEmpty}
+			onScroll={onScroll}
+			refreshing={refreshing}
+			onRefresh={onRefresh}
+			ListFooterComponent={Footer}
+		/>
+		// </ScrollView>
 	)
 }
 
 export default connector(Home)
 
 const styles = StyleSheet.create({
+	text: {
+		padding: 10,
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 	container: {
 		backgroundColor: '#ffffff',
 		borderRadius: 8,

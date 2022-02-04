@@ -38,7 +38,7 @@ export const Guess: FC<IProps> = ({ list, onPress = () => {}, dispatch }) => {
 			/>
 			<Touchable onPress={changeBatch} style={styles.changeBatch}>
 				<Text>
-					<Icon name="icon-rnAppexchangerate" size={14} color="red" /> More
+					<Icon name="icon-rnAppexchangerate" size={14} color="red" /> Change
 				</Text>
 			</Touchable>
 		</View>

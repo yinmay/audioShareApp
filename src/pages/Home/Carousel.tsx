@@ -36,7 +36,7 @@ const Carousel: FC<IProps> = ({ data, activeCarouselIndex, dispatch }) => {
 			<ParallaxImage
 				style={{ height: '50%', width: itemWidth }}
 				containerStyle={{
-					height: 200,
+					height: 400,
 					...StyleSheet.absoluteFillObject,
 					resizeMode: 'cover',
 				}}
@@ -100,7 +100,7 @@ const Carousel: FC<IProps> = ({ data, activeCarouselIndex, dispatch }) => {
 const styles = StyleSheet.create({
 	image: {
 		width: 400,
-		height: 200,
+		height: 400,
 		borderWidth: 3,
 	},
 	paginationContainer: {

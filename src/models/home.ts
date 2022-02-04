@@ -19,6 +19,7 @@ export interface HomeState {
 	channels: IChannel[]
 	info: IInfo
 	refreshing: boolean
+	hasMore: boolean
 }
 
 interface HomeModel extends Model {
@@ -44,8 +45,9 @@ const initialState = {
 	refreshing: false,
 	info: {
 		page: 1,
-		result: 3,
+		pageSize: 8,
 	},
+	hasMore: true,
 }
 
 const homeModel: HomeModel = {
@@ -85,25 +87,43 @@ const homeModel: HomeModel = {
 		},
 
 		*fetchChannelList({ type, payload }, { call, put, select }) {
-			const { info, channels: list } = yield select(
-				(state: RootState) => state.home,
-			)
-			const { refreshing } = payload
-
-			yield put({
-				type: 'setState',
-				payload: {
-					refreshing,
-				},
-			})
-
-			const page = refreshing ? 0 : info.page
 			const {
-				data: { data },
+				info,
+				channels: list,
+				hasMore,
+			} = yield select((state: RootState) => state.home)
+			const { loadMore = false, refreshing = false } = payload
+
+			if (refreshing) {
+				yield put({
+					type: 'setState',
+					payload: {
+						refreshing,
+					},
+				})
+			}
+			const {
+				data: { data, count },
 			} = yield call(axios.get, CHANNEL_URL, {
-				params: { page },
+				params: { page: info.page },
 			})
-			const newList = refreshing ? data : list.concat(data)
+
+			if (count <= list.length) {
+				return yield put({
+					type: 'setState',
+					payload: {
+						hasMore: false,
+					},
+				})
+			}
+
+			let newList = []
+			if (loadMore) {
+				newList = list.concat(data)
+			} else {
+				newList = data
+			}
+
 			yield put({
 				type: 'setState',
 				payload: {

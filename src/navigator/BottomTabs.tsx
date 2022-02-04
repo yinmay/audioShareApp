@@ -38,6 +38,7 @@ const BottomTabs: FC<IProps> = props => {
 			: route.params
 			? route.params.screen
 			: 'HomeTabs'
+		console.log(route, 342243)
 		if (routeName === 'HomeTabs') {
 			navigation.setOptions({
 				headerTitle: '',
@@ -58,7 +59,7 @@ const BottomTabs: FC<IProps> = props => {
 			barStyle={{ backgroundColor: 'grey' }}
 			onPress={() => console.log(123)}>
 			<Tab.Screen
-				name="Home Tab"
+				name="HomeTab"
 				component={HomeTabs}
 				options={{
 					tabBarLabel: 'Home',

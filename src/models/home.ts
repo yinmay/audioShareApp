@@ -94,14 +94,13 @@ const homeModel: HomeModel = {
 			} = yield select((state: RootState) => state.home)
 			const { loadMore = false, refreshing = false } = payload
 
-			if (refreshing) {
-				yield put({
-					type: 'setState',
-					payload: {
-						refreshing,
-					},
-				})
-			}
+			yield put({
+				type: 'setState',
+				payload: {
+					refreshing,
+				},
+			})
+
 			const {
 				data: { data, count },
 			} = yield call(axios.get, CHANNEL_URL, {
@@ -128,6 +127,7 @@ const homeModel: HomeModel = {
 				type: 'setState',
 				payload: {
 					channels: newList,
+					refreshing: false,
 				},
 			})
 		},

@@ -54,7 +54,7 @@ const Home: FC<IProps> = props => {
 	useEffect(() => {
 		dispatch({ type: 'home/fetchCarouselImages' })
 		dispatch({ type: 'home/fetchGuessList' })
-		loadChannelData({ loadMore: false })
+		loadChannelData({ loadMore: false, efreshing: true })
 	}, [])
 
 	const onPress = () => {
@@ -66,7 +66,7 @@ const Home: FC<IProps> = props => {
 	}
 
 	const onEndReached = () => {
-		loadChannelData({ loadMore: true })
+		loadChannelData({ loadMore: true, refreshing: true })
 	}
 
 	const renderEmpty = () => {

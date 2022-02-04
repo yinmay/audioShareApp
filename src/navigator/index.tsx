@@ -1,5 +1,12 @@
 import React from 'react'
-import { View, Text, PlatformColor, StyleSheet, Platform } from 'react-native'
+import {
+	View,
+	Text,
+	PlatformColor,
+	StyleSheet,
+	Platform,
+	StatusBar,
+} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import {
 	createStackNavigator,

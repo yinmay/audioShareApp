@@ -37,7 +37,7 @@ type IProps = MaterialTopTabBarProps & ModelState
 const TopTabBarWrapper: FC<IProps> = props => {
 	const goSortPage = () => {
 		const { navigation } = props
-		navigation.navigate('Category')
+		// navigation.navigate('Category')
 	}
 
 	const goHistory = () => {

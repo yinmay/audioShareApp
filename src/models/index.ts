@@ -1,7 +1,8 @@
 import home from './home'
+import category from './category'
 import { DvaLoadingState } from 'dva-loading-ts'
 
-const models = [home]
+const models = [home, category]
 
 export interface IGuess {
 	title: string
@@ -11,9 +12,8 @@ export interface IGuess {
 
 export type RootState = {
 	home: typeof home.state //HomeState
+	category: typeof category.state //HomeState
 	loading: DvaLoadingState
-	carouselImages: string[]
-	guessList: IGuess[]
 }
 
 export interface IChannel {

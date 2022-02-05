@@ -34,7 +34,7 @@ type IProps = MaterialTopTabBarProps & ModelState
  * custom navigation header
  */
 const TopTabBarWrapper: FC<IProps> = props => {
-	const goSortPage = () => {
+	const goCategory = () => {
 		const { navigation } = props
 		navigation.navigate('Category')
 	}
@@ -90,8 +90,8 @@ const TopTabBarWrapper: FC<IProps> = props => {
 					style={styles.tabbar}
 				/>
 
-				<Touchable onPress={goSortPage} style={styles.sortBtn}>
-					<Text style={whiteText}>Catogary</Text>
+				<Touchable onPress={goCategory} style={styles.sortBtn}>
+					<Text style={whiteText}>Category</Text>
 				</Touchable>
 			</View>
 
@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
 	topTabBarView: {
 		flexDirection: 'row',
 		alignItems: 'center',
+		justifyContent: 'space-between',
 	},
 	tabbar: {
 		flex: 1,

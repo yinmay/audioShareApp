@@ -4,8 +4,7 @@ import { Model, Effect } from 'dva-core-ts'
 import { Reducer } from 'redux'
 import { IGuess, IChannel, iCarouselImage, IInfo, RootState } from './index'
 
-const REQUEST_URL =
-	'https://www.fastmock.site/mock/0a1e1812d969fae03fa14074df4989a6/mock'
+import { REQUEST_URL } from './data'
 
 const CAROUSEL_URL = `${REQUEST_URL}/api/carousel`
 const GUESS_URL = `${REQUEST_URL}/api/guess`

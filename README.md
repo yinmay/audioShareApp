@@ -13,4 +13,4 @@ yarn
 
 ## Image
 
-<img src="./src/assets/images/android_screenshot.png" width = "400" height = "800" alt="图片名称"  />
+<img src="./src/assets/images/android_screenshot.png" width = "400"  alt="图片名称"  />

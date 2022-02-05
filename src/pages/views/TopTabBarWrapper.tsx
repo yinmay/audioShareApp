@@ -10,7 +10,6 @@ import {
 	MaterialTopTabBarProps,
 	MaterialTopTabBar,
 } from '@react-navigation/material-top-tabs'
-import LinearGradient from 'react-native-linear-gradient'
 
 const mapStateToProps = (
 	{ home }: RootState,
@@ -37,7 +36,7 @@ type IProps = MaterialTopTabBarProps & ModelState
 const TopTabBarWrapper: FC<IProps> = props => {
 	const goSortPage = () => {
 		const { navigation } = props
-		// navigation.navigate('Category')
+		navigation.navigate('Category')
 	}
 
 	const goHistory = () => {
@@ -53,50 +52,55 @@ const TopTabBarWrapper: FC<IProps> = props => {
 		) : null
 	}
 
-	// let { gradientVisible, activeTintColor, inactiveTintColor, indicatorStyle } =
-	// 	props
-	// let textStyle = styles.text
-	// if (!gradientVisible) {
-	// 	textStyle = styles.blackText
-	// 	activeTintColor = '#000'
-	// 	inactiveTintColor = '#333'
-	// 	if (indicatorStyle) {
-	// 		indicatorStyle = StyleSheet.compose(
-	// 			indicatorStyle,
-	// 			styles.grayBackgroundColor,
-	// 		)
-	// 	}
-	// } else {
-	// 	indicatorStyle = StyleSheet.compose(
-	// 		indicatorStyle,
-	// 		styles.whiteBackgroundColor,
-	// 	)
-	// }
-
-	const { gradientVisible, ...rest } = props
-
+	let {
+		gradientVisible,
+		activeTintColor,
+		inactiveTintColor,
+		indicatorStyle,
+		...rest
+	} = props
+	let textStyle = styles.text
+	if (!gradientVisible) {
+		textStyle = styles.blackText
+		activeTintColor = '#000'
+		inactiveTintColor = '#333'
+		if (indicatorStyle) {
+			indicatorStyle = StyleSheet.compose(
+				indicatorStyle,
+				styles.grayBackgroundColor,
+			)
+		}
+	} else {
+		indicatorStyle = StyleSheet.compose(
+			indicatorStyle,
+			styles.whiteBackgroundColor,
+		)
+	}
+	console.log(gradientVisible, 'gradientVisible000000000', activeTintColor)
+	const whiteText = { color: gradientVisible ? '#fff' : '#333' }
 	return (
 		<View style={styles.container}>
 			{gradient()}
 			<View style={styles.topTabBarView}>
 				<MaterialTopTabBar
 					{...rest}
-					// indicatorStyle={indicatorStyle}
-					// activeTintColor={activeTintColor}
-					// inactiveTintColor={inactiveTintColor}
+					indicatorStyle={indicatorStyle}
+					activeTintColor={activeTintColor}
+					inactiveTintColor={inactiveTintColor}
 					style={styles.tabbar}
 				/>
+
 				<Touchable onPress={goSortPage} style={styles.sortBtn}>
-					<Text>Catogary</Text>
+					<Text style={whiteText}>Catogary</Text>
 				</Touchable>
 			</View>
 
 			<View style={styles.searchBar}>
 				<Touchable style={styles.search}>
-					<Text>search</Text>
+					<Text style={whiteText}>search</Text>
 				</Touchable>
 				<Touchable style={styles.history} onPress={goHistory}>
-					<Text>history</Text>
+					<Text style={whiteText}>history</Text>
 				</Touchable>
 			</View>
 		</View>
@@ -152,9 +156,9 @@ const styles = StyleSheet.create({
 	grayBackgroundColor: {
 		backgroundColor: '#333',
 	},
-	// whiteBackgroundColor: {
-	// 	backgroundColor: '#fff',
-	// },
+	whiteBackgroundColor: {
+		backgroundColor: '#fff',
+	},
 	linearGradient: {
 		flex: 1,
 		paddingLeft: 15,

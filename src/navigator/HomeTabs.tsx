@@ -31,10 +31,11 @@ const HomeTabs = props => {
 					color: '#e91e63',
 				},
 				indicatorStyle: {
-					height: 0,
+					height: 4,
+					backgroundColor: '#e91e63',
 				},
-				// activeTintColor: '#fff',
-				// inactiveTintColor: '#fff',
+				activeTintColor: '#fff',
+				inactiveTintColor: '#fff',
 			}}
 			// screenOptions={{
 			// 	lazy: true,

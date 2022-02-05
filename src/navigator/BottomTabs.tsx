@@ -5,7 +5,7 @@ import {
 	RouteProp,
 	TabNavigationState,
 } from '@react-navigation/native'
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from '@/pages/Home'
 import Listen from '@/pages/Listen'
 import Found from '@/pages/Found'
@@ -29,7 +29,7 @@ interface IProps {
 	route: Route
 }
 
-const Tab = createMaterialBottomTabNavigator<BottomTabParamList>()
+const Tab = createBottomTabNavigator<BottomTabParamList>()
 const BottomTabs: FC<IProps> = props => {
 	const setOptions = () => {
 		const { navigation, route } = props
@@ -55,6 +55,9 @@ const BottomTabs: FC<IProps> = props => {
 	return (
 		// <NavigationContainer>
 		<Tab.Navigator
+			tabBarOptions={{
+				activeTintColor: '#e91e63',
+			}}
 			activeColor="#e91e63"
 			barStyle={{ backgroundColor: 'grey' }}
 			onPress={() => console.log(123)}>

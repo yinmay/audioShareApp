@@ -1,9 +1,8 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect } from 'react'
 import {
 	View,
 	Text,
 	StyleSheet,
-	ScrollView,
 	FlatList,
 	NativeSyntheticEvent,
 	NativeScrollEvent,

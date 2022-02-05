@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 
 import TopTabBarWrapper from '@/pages/views/TopTabBarWrapper'
 import { RootState } from '@/models/index'
+import { createModel } from '@/config/dva'
 
 import {
 	createMaterialTopTabNavigator,
@@ -70,7 +71,7 @@ const HomeTabs: FC<IProps> = props => {
 			// }}
 		>
 			{props.myCategorys.map(category => {
-				// createModel('tab-' + category.id)
+				createModel('tab-' + category.id)
 				return (
 					<Tab.Screen
 						key={category.id}
@@ -79,10 +80,10 @@ const HomeTabs: FC<IProps> = props => {
 						options={{
 							tabBarLabel: category.name,
 						}}
-						// initialParams={{
-						// 	modelNamespace: 'tab-' + category.id,
-						// 	category: category.id,
-						// }}
+						initialParams={{
+							modelNamespace: 'tab-' + category.id,
+							category: category.id,
+						}}
 					/>
 				)
 			})}

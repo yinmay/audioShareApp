@@ -45,3 +45,5 @@ Project is created with:
 - react-native-linear-gradient
 - react-native-snap-carousel
 - axios
+- dynamicly generate models in dva
+- drag and drop category

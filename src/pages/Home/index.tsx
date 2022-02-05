@@ -12,21 +12,31 @@ import { Dispatch } from 'redux'
 import ChannelItem from './ChannelItem'
 import Empty from '@/components/Empty'
 import { sideHeight } from './Carousel'
+import { HomeTabParamList } from '@/navigator/HomeTabs'
 
 import { connect, ConnectedProps } from 'react-redux'
 import { RootStackNavigation } from '@/navigator/index'
 import { RootState, IChannel } from '@/models/index'
 import Carousel from './Carousel'
 import Guess from './Guess'
+import { RouteProp } from '@react-navigation/native'
 
-const mapStateToProps = ({ home }: RootState) => ({
-	carouselImages: home?.carouselImages,
-	guessList: home?.guessList,
-	channels: home?.channels,
-	gradientVisible: home?.gradientVisible,
-	refreshing: home?.refreshing,
-	hasMore: home?.hasMore,
-})
+const mapStateToProps = (
+	state: RootState,
+	{ route }: { route: RouteProp<HomeTabParamList, string> },
+) => {
+	const modelNamespace = route.params.modelNamespace
+	const modelState = state[modelNamespace]
+	return {
+		modelNamespace,
+		carouselImages: modelState?.carouselImages,
+		guessList: modelState?.guessList,
+		channels: modelState?.channels,
+		gradientVisible: modelState?.gradientVisible,
+		refreshing: modelState?.refreshing,
+		hasMore: modelState?.hasMore,
+	}
+}
 
 const connector = connect(mapStateToProps)
 
@@ -43,16 +53,20 @@ const Home: FC<IProps> = props => {
 		channels,
 		refreshing,
 		hasMore,
+		modelNamespace,
 	} = props
 	const loadChannelData = payload => {
 		if (hasMore) {
-			dispatch({ type: 'home/fetchChannelList', payload: { ...payload } })
+			dispatch({
+				type: `${modelNamespace}/fetchChannelList`,
+				payload: { ...payload },
+			})
 		}
 	}
 
 	useEffect(() => {
-		dispatch({ type: 'home/fetchCarouselImages' })
-		dispatch({ type: 'home/fetchGuessList' })
+		dispatch({ type: `${modelNamespace}/fetchCarouselImages` })
+		dispatch({ type: `${modelNamespace}/fetchGuessList` })
 		loadChannelData({ loadMore: false, efreshing: true })
 	}, [])
 
@@ -84,7 +98,7 @@ const Home: FC<IProps> = props => {
 		let newGradientVisible = nativeEvent.contentOffset.y < sideHeight
 		if (gradientVisible !== newGradientVisible) {
 			dispatch({
-				type: `home/setState`,
+				type: `${modelNamespace}/setState`,
 				payload: {
 					gradientVisible: newGradientVisible,
 				},
@@ -106,7 +120,12 @@ const Home: FC<IProps> = props => {
 						<Text style={styles.moreTitle}>More</Text>
 					</View>
 				</View>
-				<Guess list={guessList} onPress={onPress} {...props} />
+				<Guess
+					list={guessList}
+					modelNamespace={modelNamespace}
+					onPress={onPress}
+					{...props}
+				/>
 			</View>
 		)
 	}

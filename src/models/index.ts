@@ -14,6 +14,8 @@ export type RootState = {
 	home: typeof home.state //HomeState
 	category: typeof category.state //HomeState
 	loading: DvaLoadingState
+} & {
+	[key: string]: typeof home.state
 }
 
 export interface IChannel {

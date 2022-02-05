@@ -10,11 +10,17 @@ interface IProps {
 	list: IGuess[]
 	onPress: (item: IGuess) => void
 	dispatch: Dispatch
+	modelNamespace: string
 }
 
-export const Guess: FC<IProps> = ({ list, onPress = () => {}, dispatch }) => {
+export const Guess: FC<IProps> = ({
+	list,
+	modelNamespace = '',
+	onPress = () => {},
+	dispatch,
+}) => {
 	const changeBatch = () => {
-		dispatch({ type: 'home/fetchGuessList' })
+		dispatch({ type: `${modelNamespace}/fetchGuessList` })
 	}
 	const renderItem = ({ item }: { item: IGuess }) => (
 		<Touchable style={styles.item} onPress={() => onPress(item)}>

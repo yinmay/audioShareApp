@@ -16,7 +16,7 @@ function hp(percentage: number) {
 
 function findRouteNameFromNavigatorState({ routes, index }: NavigationState) {
 	let route = routes[index]
-	while (route.state) {
+	while (route.state && route.state.index) {
 		route = route.state.routes[route.state.index]
 	}
 	return route.name

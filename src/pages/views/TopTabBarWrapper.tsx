@@ -11,16 +11,16 @@ import {
 	MaterialTopTabBar,
 } from '@react-navigation/material-top-tabs'
 
-const mapStateToProps = (
-	{ home }: RootState,
-	props: MaterialTopTabBarProps,
-) => {
+const mapStateToProps = (state: RootState, props: MaterialTopTabBarProps) => {
+	const activeRouteName = findRouteNameFromNavigatorState(props.state)
+	const modelState = state[activeRouteName]
 	return {
 		activeColor:
-			home?.carouselImages && home?.carouselImages.length > 0
-				? home?.carouselImages[home?.activeCarouselIndex]?.colors
+			modelState?.carouselImages && modelState?.carouselImages.length > 0
+				? modelState?.carouselImages[modelState?.activeCarouselIndex]?.colors
 				: undefined,
-		gradientVisible: home?.gradientVisible,
+		gradientVisible: modelState?.gradientVisible,
+		modelNamespace: activeRouteName,
 	}
 }
 

@@ -13,4 +13,4 @@ yarn
 
 ## Image
 
-![avatar](/src/assets/images/android_screenshot.png =400x1000)
+![avatar](/src/assets/images/android_screenshot.png){:height="1000px" width="400px"}

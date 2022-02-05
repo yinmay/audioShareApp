@@ -9,7 +9,7 @@
 
 ## General info
 
-Use react native to create an app for audio sharing. And using the [fastmock]('https://www.fastmock.site') to mock the api for the app.
+Use react native to create an app for audio sharing. And using the [fastmock](https://www.fastmock.site) to mock the api for the app.
 
 ## Setup
 

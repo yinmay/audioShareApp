@@ -9,7 +9,7 @@
 
 ## General info
 
-Use react native to create an app for audio sharing
+Use react native to create an app for audio sharing. And using the fastmock [fastmock]('https://www.fastmock.site/mock/0a1e1812d969fae03fa14074df4989a6/mock') to mock the api for the app.
 
 ## Setup
 
@@ -34,7 +34,10 @@ yarn android // for android simulator
 
 Project is created with:
 
-- "dva": "^2.4.1"
-- "typescript": "^3.8.3"
 - "react": "17.0.2",
 - "react-native": "0.65.1"
+- "react-redux": "^7.2.5",
+- "dva": "^2.4.1"
+- "typescript": "^3.8.3"
+- "@react-navigation/native": "^6.0.2"
+- "react-native-linear-animated-gradient-transition": "^0.1.6"

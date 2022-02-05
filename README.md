@@ -1,6 +1,15 @@
 # audioShareApp
 
-use react native to create an app for audio sharing
+## Table of contents
+
+- [General info](#general-info)
+- [Setup](#setup)
+- [Screenshot](#Screenshot)
+- [Technologies](#technologies)
+
+## General info
+
+Use react native to create an app for audio sharing
 
 ## Setup
 
@@ -17,9 +26,9 @@ yarn android // for android simulator
 
 ```
 
-## Image
+## Screenshot
 
-<img src="./src/assets/images/screenshot.png" width = "400"  alt="图片名称"  />
+<img src="./src/assets/images/screenshot.png" width = "200" alt="screenshot" />
 
 ## Technologies
 

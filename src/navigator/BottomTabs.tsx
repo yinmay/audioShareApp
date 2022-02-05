@@ -38,7 +38,6 @@ const BottomTabs: FC<IProps> = props => {
 			: route.params
 			? route.params.screen
 			: 'HomeTabs'
-		console.log(route, 342243)
 		if (routeName === 'HomeTabs') {
 			navigation.setOptions({
 				headerTitle: '',

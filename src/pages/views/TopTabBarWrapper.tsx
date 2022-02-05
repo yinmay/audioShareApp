@@ -76,7 +76,6 @@ const TopTabBarWrapper: FC<IProps> = props => {
 			styles.whiteBackgroundColor,
 		)
 	}
-	console.log(gradientVisible, 'gradientVisible000000000', activeTintColor)
 	const whiteText = { color: gradientVisible ? '#fff' : '#333' }
 	return (
 		<View style={styles.container}>

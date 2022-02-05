@@ -90,6 +90,7 @@ const Category: CategoryModelType = {
 			const category: CategoryModelState = yield select(
 				(state: RootState) => state.category,
 			)
+
 			yield put({
 				type: 'setState',
 				payload: {

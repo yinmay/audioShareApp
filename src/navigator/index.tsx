@@ -40,6 +40,13 @@ const Navigator = () => {
 					cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
 					gestureEnabled: true,
 					gestureDirection: 'horizontal',
+					headerBackTitleVisible: false,
+					headerTintColor: '#e91e63',
+					...Platform.select({
+						android: {
+							headerStatusBarHeight: StatusBar.currentHeight,
+						},
+					}),
 					headerStyle: {
 						...Platform.select({
 							android: {

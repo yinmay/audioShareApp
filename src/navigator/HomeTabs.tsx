@@ -1,16 +1,37 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { StatusBar, StyleSheet, Text, View } from 'react-native'
+import { connect, ConnectedProps } from 'react-redux'
+
 import TopTabBarWrapper from '@/pages/views/TopTabBarWrapper'
+import { RootState } from '@/models/index'
 
 import {
 	createMaterialTopTabNavigator,
-	MaterialTopTabBarProps,
-	MaterialTopTabBar,
+	MaterialTopTabNavigationProp,
 } from '@react-navigation/material-top-tabs'
 import Home from '@/pages/Home'
+
+export type HomeTabParamList = {
+	[key: string]: {
+		modelNamespace: string
+		category: string
+	}
+}
+
+export type HomeTabNavigation = MaterialTopTabNavigationProp<HomeTabParamList>
 const Tab = createMaterialTopTabNavigator()
 
-const HomeTabs = props => {
+const mapStateToProps = ({ category }: RootState) => {
+	return {
+		myCategorys: category.myCategorys,
+	}
+}
+
+const connector = connect(mapStateToProps)
+
+type IProps = ConnectedProps<typeof connector>
+
+const HomeTabs: FC<IProps> = props => {
 	return (
 		<Tab.Navigator
 			tabBar={props => <TopTabBarWrapper {...props} />}
@@ -48,19 +69,28 @@ const HomeTabs = props => {
 			// 	},
 			// }}
 		>
-			<Tab.Screen
-				name="Home"
-				component={Home}
-				options={{
-					tabBarLabel: 'Recommand',
-					navBarTransparent: true,
-					navBarTranslucent: true,
-				}}></Tab.Screen>
+			{props.myCategorys.map(category => {
+				// createModel('tab-' + category.id)
+				return (
+					<Tab.Screen
+						key={category.id}
+						name={'tab-' + category.id}
+						component={Home}
+						options={{
+							tabBarLabel: category.name,
+						}}
+						// initialParams={{
+						// 	modelNamespace: 'tab-' + category.id,
+						// 	category: category.id,
+						// }}
+					/>
+				)
+			})}
 		</Tab.Navigator>
 	)
 }
 
-export default HomeTabs
+export default connector(HomeTabs)
 
 const styles = StyleSheet.create({
 	sceneContainer: {

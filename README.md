@@ -5,7 +5,7 @@
 - [General info](#general-info)
 - [Setup](#setup)
 - [Screenshot](#Screenshot)
-- [Technologies](#technologies)
+- [Technologies](#Technologies)
 
 ## General info
 
@@ -34,10 +34,14 @@ yarn android // for android simulator
 
 Project is created with:
 
-- "react": "17.0.2",
-- "react-native": "0.65.1"
-- "react-redux": "^7.2.5",
-- "dva": "^2.4.1"
-- "typescript": "^3.8.3"
-- "@react-navigation/native": "^6.0.2"
-- "react-native-linear-animated-gradient-transition": "^0.1.6"
+- Flex Style
+- View/Image/Text/FlatList
+- TouchableOpacity
+- StyleSheet
+- Animated
+- react-native-storage
+- dva-core
+- react-navigation
+- react-native-linear-gradient
+- react-native-snap-carousel
+- axios

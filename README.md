@@ -2,12 +2,18 @@
 
 use react native to create an app for audio sharing
 
-## Installation
+## Setup
 
 ```
 git clone git@github.com:yinmay/audioShareApp.git
 
 yarn
+
+yarn start
+
+yarn ios // for ios simulator
+
+yarn android // for android simulator
 
 ```
 

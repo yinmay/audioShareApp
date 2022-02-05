@@ -11,4 +11,6 @@ yarn
 
 ```
 
-![avatar](/src/assets/images/android_screenshot.png)
+## Image
+
+![avatar](/src/assets/images/android_screenshot.png =400x1000)

@@ -19,15 +19,24 @@ const itemWidth = sideWidth + wp(2) * 2
 
 interface IProps {
 	data: string[]
+	modelNamespace: string
 }
 
-const mapStateToProps = ({ home }: RootState) => {
+const mapStateToProps = (state: RootState, { modelNamespace }: IProps) => {
+	const modelState = state[modelNamespace]
+
 	return {
-		activeCarouselIndex: home?.activeCarouselIndex,
+		activeCarouselIndex: modelState?.activeCarouselIndex,
+		modelNamespace,
 	}
 }
 
-const Carousel: FC<IProps> = ({ data, activeCarouselIndex, dispatch }) => {
+const Carousel: FC<IProps> = ({
+	data,
+	activeCarouselIndex,
+	modelNamespace,
+	dispatch,
+}) => {
 	const renderItem = (
 		{ item }: { item: string },
 		parallaxProps?: AdditionalParallaxProps,
@@ -49,13 +58,12 @@ const Carousel: FC<IProps> = ({ data, activeCarouselIndex, dispatch }) => {
 	}
 	const onSnapToItem = (index: number) => {
 		dispatch({
-			type: `home/setState`,
+			type: `${modelNamespace}/setState`,
 			payload: {
 				activeCarouselIndex: index,
 			},
 		})
 	}
-
 	const ref = useRef(null)
 	const getPage = () => {
 		return (
@@ -69,6 +77,7 @@ const Carousel: FC<IProps> = ({ data, activeCarouselIndex, dispatch }) => {
 					dotStyle={styles.paginationDot}
 					inactiveDotOpacity={0.4}
 					inactiveDotScale={0.6}
+					inactiveDotColor={'rgba(0,0,0,0.8)'}
 				/>
 			</View>
 		)

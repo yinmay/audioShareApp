@@ -68,7 +68,6 @@ const Home: FC<IProps> = props => {
 	useEffect(() => {
 		dispatch({ type: `${modelNamespace}/fetchCarouselImages` })
 		dispatch({ type: `${modelNamespace}/fetchGuessList` })
-		loadChannelData({ loadMore: false, efreshing: true })
 	}, [])
 
 	const goAlbum = (item: IChannel | IGuess) => {
@@ -111,7 +110,7 @@ const Home: FC<IProps> = props => {
 		return (
 			<View>
 				<View style={{ width: 400, height: 400 }}>
-					<Carousel data={carouselImages} />
+					<Carousel data={carouselImages} modelNamespace={modelNamespace} />
 				</View>
 				<View style={styles.header}>
 					<View style={{ flexDirection: 'row' }}>

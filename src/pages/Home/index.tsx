@@ -68,6 +68,7 @@ const Home: FC<IProps> = props => {
 	useEffect(() => {
 		dispatch({ type: `${modelNamespace}/fetchCarouselImages` })
 		dispatch({ type: `${modelNamespace}/fetchGuessList` })
+		loadChannelData({ loadMore: false, efreshing: true })
 	}, [])
 
 	const goAlbum = (item: IChannel | IGuess) => {

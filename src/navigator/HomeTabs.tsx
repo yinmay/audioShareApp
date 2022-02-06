@@ -42,7 +42,7 @@ const HomeTabs: FC<IProps> = props => {
 				scrollEnabled: true,
 				tabStyle: {
 					padding: 0,
-					width: 120,
+					width: 100,
 				},
 				labelStyle: {
 					color: '#e91e63',

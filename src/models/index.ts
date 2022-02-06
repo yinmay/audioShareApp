@@ -1,8 +1,9 @@
 import home from './home'
 import category from './category'
+import album from './album'
 import { DvaLoadingState } from 'dva-loading-ts'
 
-const models = [home, category]
+const models = [home, category, album]
 
 export interface IGuess {
 	title: string

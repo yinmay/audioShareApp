@@ -13,6 +13,9 @@ export default class extends React.Component {
 					backgroundColor="transparent"
 					barStyle="dark-content"
 					translucent
+					animated={true}
+					showHideTransition={'fade'}
+					networkActivityIndicatorVisible={true}
 				/>
 			</Provider>
 		)

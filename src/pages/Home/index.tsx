@@ -16,7 +16,7 @@ import { HomeTabParamList } from '@/navigator/HomeTabs'
 
 import { connect, ConnectedProps } from 'react-redux'
 import { RootStackNavigation } from '@/navigator/index'
-import { RootState, IChannel } from '@/models/index'
+import { RootState, IChannel, IGuess } from '@/models/index'
 import Carousel from './Carousel'
 import Guess from './Guess'
 import { RouteProp } from '@react-navigation/native'
@@ -54,6 +54,7 @@ const Home: FC<IProps> = props => {
 		refreshing,
 		hasMore,
 		modelNamespace,
+		navigation,
 	} = props
 	const loadChannelData = payload => {
 		if (hasMore) {
@@ -70,12 +71,12 @@ const Home: FC<IProps> = props => {
 		loadChannelData({ loadMore: false, efreshing: true })
 	}, [])
 
-	const onPress = () => {
-		alert('ok')
+	const goAlbum = (item: IChannel | IGuess) => {
+		navigation.navigate('Album', { item })
 	}
 
 	const renderItem = ({ item }: ListRenderItemInfo<IChannel>) => {
-		return <ChannelItem item={item} onPress={onPress} />
+		return <ChannelItem item={item} onPress={goAlbum} />
 	}
 
 	const onEndReached = () => {
@@ -123,7 +124,7 @@ const Home: FC<IProps> = props => {
 				<Guess
 					list={guessList}
 					modelNamespace={modelNamespace}
-					onPress={onPress}
+					onPress={goAlbum}
 					{...props}
 				/>
 			</View>

@@ -34,16 +34,14 @@ yarn android // for android simulator
 
 Project is created with:
 
-- Flex Style
-- View/Image/Text/FlatList
-- TouchableOpacity
-- StyleSheet
-- Animated
-- react-native-storage
-- dva-core
-- react-navigation
+- React Native UI library, like Flex Style,View/Image/Text/FlatList,TouchableOpacity,Animated,StyleSheet
+- dva.js, React and redux based, lightweight and elm-style framework
+- react-navigation for the routing and navigation
+- react-native-storage to save the data in local, just like winodw.localstorage for web
 - react-native-linear-gradient
 - react-native-snap-carousel
-- axios
+- axios to fetch data
 - dynamicly generate models in dva
 - drag and drop category
+- use mockjs and FastMock to mock api and create fake data for frontend
+- blur image background

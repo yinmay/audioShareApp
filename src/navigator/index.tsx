@@ -6,31 +6,82 @@ import {
 	StyleSheet,
 	Platform,
 	StatusBar,
+	Animated,
 } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, RouteProp } from '@react-navigation/native'
 import {
 	createStackNavigator,
 	StackNavigationProp,
 	HeaderStyleInterpolators,
 	CardStyleInterpolators,
 } from '@react-navigation/stack'
+
 import BottomTabs from './BottomTabs'
 import Detail from '@/pages/detail'
 import Category from '@/pages/Category'
+import Album from '@/pages/Album'
+
+export type ModalStackParamList = {
+	Root: undefined
+	ProgramDetail: {
+		id?: string
+		previousId?: string
+		nextId?: string
+	}
+	Login: undefined
+}
+
+export type ModalStackNavigation = StackNavigationProp<ModalStackParamList>
 
 export type RootStackParamList = {
 	BottomTabs: {
 		screen?: string
 	}
 	Category: undefined
-	Detail: { id: number }
+	Album: {
+		item: {
+			id: string
+			title: string
+			image: string
+		}
+	}
 }
 
-export type RootStackNavigation = StackNavigationProp
+export type RootStackNavigation = StackNavigationProp<RootStackParamList>
 
 const Stack = createStackNavigator<RootStackParamList>()
 
+const styles = StyleSheet.create({
+	headerBackground: {
+		flex: 1,
+		backgroundColor: '#fff',
+	},
+})
+
 const Navigator = () => {
+	const getAlbumOptions = ({
+		route,
+	}: {
+		route: RouteProp<RootStackParamList, 'Album'>
+	}) => {
+		return {
+			headerTransparent: true,
+			headerTitleStyle: {
+				opacity: route.params?.opacity || 0,
+			},
+			headerTitle: route.params.item.title,
+			headerBackground: () => (
+				<Animated.View
+					style={StyleSheet.flatten([
+						styles.headerBackground,
+						{
+							// opacity: route.params.opacity,
+						},
+					])}
+				/>
+			),
+		}
+	}
 	return (
 		<NavigationContainer>
 			<Stack.Navigator
@@ -68,9 +119,9 @@ const Navigator = () => {
 					options={{ headerTitle: 'Category' }}
 				/>
 				<Stack.Screen
-					name="Detail"
-					component={Detail}
-					options={{ headerTitle: 'Detail' }}
+					name="Album"
+					component={Album}
+					options={getAlbumOptions}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>

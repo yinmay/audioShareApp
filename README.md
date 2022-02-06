@@ -34,7 +34,7 @@ yarn android // for android simulator
 
 Project is created with:
 
-- React Native UI library, like Flex Style,View/Image/Text/FlatList,TouchableOpacity,Animated,StyleSheet
+- React Native UI library, like Flex Style,View/Image/Text/FlatList, TouchableOpacity, Animated, StyleSheet
 - dva.js, React and redux based, lightweight and elm-style framework
 - react-navigation for the routing and navigation
 - react-native-storage to save the data in local, just like winodw.localstorage for web
@@ -45,3 +45,4 @@ Project is created with:
 - drag and drop category
 - use mockjs and FastMock to mock api and create fake data for frontend
 - blur image background
+- react-native-gesture-handler for the gesture of native

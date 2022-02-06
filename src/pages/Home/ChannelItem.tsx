@@ -26,11 +26,11 @@ const ChannelItem: FC<IProps> = ({ item, onPress = () => {} }) => {
 
 					<View style={styles.bottomView}>
 						<View style={styles.playedView}>
-							<Icon name="icon-rnApplisten" size={14} color="#f86442" />
+							<Icon name="icon-rnAppsound" size={14} color="#e91e63" />
 							<Text style={{ marginLeft: 5 }}>{item.played}</Text>
 						</View>
 						<View style={styles.playingView}>
-							<Icon name="icon-rnAppshengyin" size={14} color="#f86442" />
+							<Icon name="icon-rnApplisten" size={14} color="#e91e63" />
 							<Text style={{ marginLeft: 5 }}>{item.playing}</Text>
 						</View>
 					</View>

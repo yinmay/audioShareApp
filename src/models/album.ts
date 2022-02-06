@@ -73,7 +73,6 @@ const AlbumModel: AlbumModelType = {
 				data: { data },
 			} = yield call(axios.get, ALBUM_URL)
 
-			console.log(data)
 			yield put({
 				type: 'setState',
 				payload: data,

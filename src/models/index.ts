@@ -13,7 +13,8 @@ export interface IGuess {
 
 export type RootState = {
 	home: typeof home.state //HomeState
-	category: typeof category.state //HomeState
+	category: typeof category.state
+	album: typeof album.state
 	loading: DvaLoadingState
 } & {
 	[key: string]: typeof home.state

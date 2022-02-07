@@ -30,9 +30,9 @@ yarn android // for android simulator
 
 <img src="./src/assets/images/screenshot.png" width = "200" alt="screenshot" />
 
-<video id="video" width="800px" height="600px"  controls="" preload="none" poster="./src/assets/videos/videos.mp4">
+<!-- <video id="video" width="800px" height="600px"  controls="" preload="none" poster="./src/assets/videos/videos.mp4">
       <source id="mp4" src="./src/assets/videos/videos.mp4" type="video/mp4">
-</videos>
+</videos> -->
 
 ## Technologies
 

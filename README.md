@@ -30,9 +30,13 @@ yarn android // for android simulator
 
 <img src="./src/assets/images/screenshot.png" width = "200" alt="screenshot" />
 
-<video id="video" controls="" preload="none" poster="封面">
-      <source id="mp4" src="./src/assets/videos/video.mp4" type="video/mp4">
+<video id="video" controls="" preload="none" poster="./src/assets/videos/videos.mp4">
+      <source id="mp4" src="./src/assets/videos/videos.mp4" type="video/mp4">
 </videos>
+
+<video id="video" controls="" preload="none" poster="https://blog-static.cnblogs.com/files/douzujun/logisticRegression.js" type="video/mp4">
+<source id="mp4" src="https://blog-static.cnblogs.com/files/douzujun/logisticRegression.js" type="video/mp4">
+</video>
 
 ## Technologies
 

@@ -20,22 +20,20 @@ const connector = connect(mapStateToProps)
 
 type ModelState = ConnectedProps<typeof connector>
 
-const List: FC<ModelState> = props => {
-	const { list } = props
-	console.log(list, 'list=====')
+interface ITabProps {
+	onItemPress: (item: IAlbum, index: number) => void
+}
 
-	// const onPress = (item: IAlbum, index: number) => {
-	// 	const { onItemPress } = props
-	// 	onItemPress(item, index)
-	// }
+type IProps = ModelState & ITabProps
+
+const List: FC<IProps> = props => {
+	const { list } = props
+	const onPress = (item: IAlbum, index: number) => {
+		const { onItemPress } = props
+		onItemPress(item, index)
+	}
 	const renderItem = ({ item, index }: ListRenderItemInfo<IAlbum>) => {
-		return (
-			<Item
-				item={item}
-				index={index}
-				onPress={() => console.log(item, index)}
-			/>
-		)
+		return <Item item={item} index={index} onPress={onPress} />
 	}
 	return (
 		<Animated.FlatList
@@ -44,7 +42,6 @@ const List: FC<ModelState> = props => {
 			renderItem={renderItem}
 			bounces={false}
 			scrollEventThrottle={1}
-			// onScrollBeginDrag={onScrollBeginDrag}
 		/>
 	)
 }

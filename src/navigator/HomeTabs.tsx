@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { StatusBar, StyleSheet, Text, View } from 'react-native'
+import { StatusBar, StyleSheet, Text, Animated } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 
 import TopTabBarWrapper from '@/pages/views/TopTabBarWrapper'
@@ -36,7 +36,6 @@ const HomeTabs: FC<IProps> = props => {
 	return (
 		<Tab.Navigator
 			tabBar={props => <TopTabBarWrapper {...props} />}
-			lazy
 			sceneContainerStyle={styles.sceneContainer}
 			tabBarOptions={{
 				scrollEnabled: true,

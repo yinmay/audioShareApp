@@ -52,7 +52,6 @@ const BottomTabs: FC<IProps> = props => {
 	}
 	useEffect(() => setOptions())
 	return (
-		// <NavigationContainer>
 		<Tab.Navigator
 			tabBarOptions={{
 				activeTintColor: '#e91e63',
@@ -64,6 +63,8 @@ const BottomTabs: FC<IProps> = props => {
 				name="HomeTab"
 				component={HomeTabs}
 				options={{
+					headerTransparent: true,
+					headerShown: false,
 					tabBarLabel: 'Home',
 					tabBarIcon: ({ color, size }) => (
 						<Icon name="icon-rnApphome" color={color} size={size} />
@@ -101,7 +102,6 @@ const BottomTabs: FC<IProps> = props => {
 				}}
 			/>
 		</Tab.Navigator>
-		// </NavigationContainer>
 	)
 }
 

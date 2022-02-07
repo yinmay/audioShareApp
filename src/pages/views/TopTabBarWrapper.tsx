@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Platform, NativeModules } from 'react-native'
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 import Touchable from '@/components/Touchable'
 import { connect, ConnectedProps } from 'react-redux'
@@ -10,6 +10,8 @@ import {
 	MaterialTopTabBarProps,
 	MaterialTopTabBar,
 } from '@react-navigation/material-top-tabs'
+
+const { StatusBarManager } = NativeModules
 
 const mapStateToProps = (state: RootState, props: MaterialTopTabBarProps) => {
 	const activeRouteName = findRouteNameFromNavigatorState(props.state)
@@ -77,6 +79,7 @@ const TopTabBarWrapper: FC<IProps> = props => {
 		)
 	}
 	const whiteText = { color: gradientVisible ? '#fff' : '#333' }
+
 	return (
 		<View style={styles.container}>
 			{gradient()}

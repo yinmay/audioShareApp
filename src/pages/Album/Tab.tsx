@@ -8,6 +8,7 @@ import {
 } from 'react-native-tab-view'
 import Introduction from './Introduction'
 import List from './List'
+import { IAlbum } from '@/models/album'
 
 const initialLayout = { width: Dimensions.get('window').width }
 
@@ -28,27 +29,22 @@ const routes = [
 	{ key: 'albums', title: 'Albums' },
 ]
 
-const Tab: FC = () => {
+interface IProps {
+	onItemPress: (item: IAlbum, index: number) => void
+}
+
+const Tab: FC<IProps> = props => {
 	const [index, setIndex] = useState<number>(1)
 	const onIndexChange = (index: number) => {
 		setIndex(index)
 	}
 	const renderScene = ({ route }: { route: IRoute }) => {
-		// const { nativeRef, panRef, tapRef, onItemPress, onScrollBeginDrag } =
-		// 	props
+		const { onItemPress } = props
 		switch (route.key) {
 			case 'introduction':
 				return <Introduction />
 			case 'albums':
-				return (
-					<List
-					// nativeRef={nativeRef}
-					// panRef={panRef}
-					// tapRef={tapRef}
-					// onItemPress={onItemPress}
-					// onScrollBeginDrag={onScrollBeginDrag}
-					/>
-				)
+				return <List onItemPress={onItemPress} />
 		}
 	}
 

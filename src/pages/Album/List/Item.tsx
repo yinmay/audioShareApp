@@ -5,18 +5,19 @@ import Touchable from '@/components/Touchable'
 import { IAlbum } from '@/models/album'
 
 export interface Props {
-	onPress: (item: any) => void
+	onPress: (item: IAlbum, index: number) => void
 	item: IAlbum
 	index: number
 }
 
 const Item: FC<Props> = props => {
+	const { item, index } = props
+
 	const onPress = () => {
-		const { onPress, item } = props
-		onPress(item)
+		const { onPress, item, index } = props
+		onPress(item, index)
 	}
 
-	const { item, index } = props
 	return (
 		<Touchable style={styles.item} onPress={onPress}>
 			<View style={styles.left}>
@@ -26,11 +27,9 @@ const Item: FC<Props> = props => {
 				<Text style={styles.title}>{item.title}</Text>
 				<View style={styles.centerRight}>
 					<View style={styles.volumeView}>
-						<Icon name="icon-rnApplisten" color="#939393" />
 						<Text style={styles.otherText}>{item.playVolume}</Text>
 					</View>
 					<View style={styles.duration}>
-						{/* <Icon name="icon-shengyin" color="#939393" /> */}
 						<Text style={styles.otherText}>{item.duration}</Text>
 					</View>
 				</View>

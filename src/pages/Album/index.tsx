@@ -1,17 +1,27 @@
 import React, { FC, useEffect, useRef } from 'react'
 import { RouteProp } from '@react-navigation/native'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, Animated } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { BlurView } from '@react-native-community/blur'
+import { useHeaderHeight } from '@react-navigation/elements'
+
+import {
+	PanGestureHandler,
+	PanGestureHandlerStateChangeEvent,
+	State,
+	TapGestureHandler,
+	NativeViewGestureHandler,
+} from 'react-native-gesture-handler'
 import { viewportHeight } from '@/utils/index'
 
 import { RootStackParamList, ModalStackNavigation } from '@/navigator/index'
 import { RootState } from '@/models/index'
 import Tab from './Tab'
+import { IAlbum } from '@/models/album'
 
-import { useHeaderHeight } from '@react-navigation/elements'
 const coverRight = require('@/assets/images/cover-right.png')
 const HEADER_HEIGHT = 260
+const USE_NATIVE_DRIVER = true
 
 const mapStateToProps = ({ album }: RootState) => ({
 	data: album,
@@ -36,14 +46,29 @@ const Album: FC<IProps> = props => {
 			},
 		},
 		data,
+		navigation,
 	} = props
+
+	const headerHeight = useHeaderHeight()
+
+	const RANGE = [-(HEADER_HEIGHT - headerHeight), 0]
+
+	const translateYRef = useRef(new Animated.Value(0))
+	const translationYVaueRef = useRef(0)
+	const translateYOffsetRef = useRef(new Animated.Value(0))
+	const translationYRef = useRef(new Animated.Value(0))
+	translationYRef.current = Animated.add(
+		translateYOffsetRef.current,
+		translateYRef.current,
+	)
+
 	useEffect(() => {
 		dispatch({
 			type: 'album/fetchList',
 		})
 	}, [])
 
-	const headerHeight = useHeaderHeight()
+	useEffect(() => {}, [])
 
 	const renderHeader = () => {
 		const item = route.params.item
@@ -51,14 +76,10 @@ const Album: FC<IProps> = props => {
 			<View style={[styles.header, { paddingTop: headerHeight }]}>
 				<Image
 					source={{ uri: item.image }}
-					// ref={backgroundImage}
-					// onLoadEnd={this.imageLoaded}
 					style={[StyleSheet.absoluteFillObject, styles.image]}
 				/>
-				{/* {this.state.viewRef && ( */}
 				<BlurView
 					style={StyleSheet.absoluteFillObject}
-					// viewRef={this.state.viewRef}
 					blurType="light"
 					blurAmount={10}
 				/>
@@ -85,20 +106,78 @@ const Album: FC<IProps> = props => {
 			</View>
 		)
 	}
+
+	const onGestureEvent = Animated.event(
+		[{ nativeEvent: { translationY: translateYRef.current } }],
+		{
+			useNativeDriver: USE_NATIVE_DRIVER,
+		},
+	)
+	const onHandlerStateChange = ({
+		nativeEvent,
+	}: PanGestureHandlerStateChangeEvent) => {
+		if (nativeEvent.oldState === State.ACTIVE) {
+			let { translationY } = nativeEvent
+			//offset =value
+			translateYOffsetRef.current.extractOffset() //clear value
+			translateYOffsetRef.current.setValue(translationY) //reset value
+			translateYOffsetRef.current.flattenOffset() //value = value + offset
+			translateYRef.current.setValue(0)
+			translationYVaueRef.current += translationY
+			if (translationYVaueRef.current < RANGE[0]) {
+				translationYVaueRef.current = RANGE[0]
+				Animated.timing(translateYOffsetRef.current, {
+					toValue: RANGE[0],
+					duration: 1000,
+					useNativeDriver: USE_NATIVE_DRIVER,
+				}).start()
+			} else if (translationYVaueRef.current > RANGE[1]) {
+				translationYVaueRef.current = RANGE[1]
+				Animated.timing(translateYOffsetRef.current, {
+					toValue: RANGE[1],
+					duration: 1000,
+					useNativeDriver: USE_NATIVE_DRIVER,
+				}).start()
+			}
+		}
+	}
+
+	const onItemPress = (album: IAlbum, index: number) => {
+		const item = route.params.item
+
+		dispatch({
+			type: 'player/setState',
+			payload: {
+				currentAlbum: { ...album, image: item.image },
+			},
+		})
+		navigation.navigate('Detail', { id: item.id })
+	}
 	return (
-		<View style={styles.container}>
-			{renderHeader()}
-			<View style={[styles.tab, { height: viewportHeight - headerHeight }]}>
-				<Tab
-				// nativeRef={nativeRef}
-				// tapRef={tapRef}
-				// panRef={panRef}
-				// route={route}
-				// onScrollBeginDrag={onScrollBeginDrag}
-				// onItemPress={onItemPress}
-				/>
-			</View>
-		</View>
+		<PanGestureHandler
+			onGestureEvent={onGestureEvent}
+			onHandlerStateChange={onHandlerStateChange}>
+			<Animated.View
+				style={[
+					styles.container,
+					{
+						transform: [
+							{
+								translateY: translationYRef.current.interpolate({
+									inputRange: RANGE,
+									outputRange: RANGE,
+									extrapolate: 'extend',
+								}),
+							},
+						],
+					},
+				]}>
+				{renderHeader()}
+				<View style={[styles.tab, { height: viewportHeight - headerHeight }]}>
+					<Tab onItemPress={onItemPress} />
+				</View>
+			</Animated.View>
+		</PanGestureHandler>
 	)
 }
 

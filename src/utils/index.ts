@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native'
+import { Dimensions, StatusBar } from 'react-native'
 import { NavigationState } from '@react-navigation/native'
 
 const { width: viewportWidth, height: viewportHeight } =
@@ -21,11 +21,21 @@ function findRouteNameFromNavigatorState({ routes, index }: NavigationState) {
 	}
 	return route.name
 }
+const statusBarHeight = StatusBar.currentHeight
+
+function getTimeString(seconds: number) {
+	const m = parseInt((seconds % (60 * 60)) / 60 + '', 10)
+	const s = parseInt((seconds % 60) + '', 10)
+
+	return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s)
+}
 
 export {
+	statusBarHeight,
 	viewportWidth,
 	viewportHeight,
 	wp,
 	hp,
 	findRouteNameFromNavigatorState,
+	getTimeString,
 }

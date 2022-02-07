@@ -14,24 +14,61 @@ import {
 	StackNavigationProp,
 	HeaderStyleInterpolators,
 	CardStyleInterpolators,
+	TransitionPresets,
 } from '@react-navigation/stack'
 
 import BottomTabs from './BottomTabs'
-import Detail from '@/pages/detail'
+import Detail from '@/pages/Detail'
 import Category from '@/pages/Category'
 import Album from '@/pages/Album'
-
+import { create } from 'lodash'
+import {
+	statusBarHeight,
+	navigationRef,
+	findRouteNameFromNavigatorState,
+} from '@/utils/index'
 export type ModalStackParamList = {
 	Root: undefined
-	ProgramDetail: {
+	Detail: {
 		id?: string
-		previousId?: string
-		nextId?: string
 	}
-	Login: undefined
 }
 
+const ModalStack = createStackNavigator<ModalStackParamList>()
+
 export type ModalStackNavigation = StackNavigationProp<ModalStackParamList>
+
+const ModalStackScreen = () => {
+	return (
+		<ModalStack.Navigator
+			mode="modal"
+			headerMode="screen"
+			screenOptions={() => ({
+				...TransitionPresets.ModalSlideFromBottomIOS,
+				// cardOverlayEnabled: true,
+				gestureEnabled: true,
+				headerTitleAlign: 'center',
+				// headerStatusBarHeight: statusBarHeight,
+				headerBackTitleVisible: false,
+			})}>
+			<ModalStack.Screen
+				name="Root"
+				component={RootStackScreen}
+				options={{ headerShown: false }}
+			/>
+			<ModalStack.Screen
+				name="Detail"
+				component={Detail}
+				options={{
+					headerTransparent: true,
+					headerTitle: '',
+					cardStyle: { backgroundColor: '#807c66' },
+					headerTintColor: '#fff',
+				}}
+			/>
+		</ModalStack.Navigator>
+	)
+}
 
 export type RootStackParamList = {
 	BottomTabs: {
@@ -49,16 +86,9 @@ export type RootStackParamList = {
 
 export type RootStackNavigation = StackNavigationProp<RootStackParamList>
 
-const Stack = createStackNavigator<RootStackParamList>()
+const RootStack = createStackNavigator<RootStackParamList>()
 
-const styles = StyleSheet.create({
-	headerBackground: {
-		flex: 1,
-		backgroundColor: '#fff',
-	},
-})
-
-const Navigator = () => {
+const RootStackScreen = () => {
 	const getAlbumOptions = ({
 		route,
 	}: {
@@ -75,7 +105,7 @@ const Navigator = () => {
 					style={StyleSheet.flatten([
 						styles.headerBackground,
 						{
-							// opacity: route.params.opacity,
+							// opacity: route.params?.opacity,
 						},
 					])}
 				/>
@@ -83,47 +113,63 @@ const Navigator = () => {
 		}
 	}
 	return (
-		<NavigationContainer>
-			<Stack.Navigator
-				screenOptions={{
-					headerTitleAlign: 'center',
-					headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
-					cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-					gestureEnabled: true,
-					gestureDirection: 'horizontal',
-					headerBackTitleVisible: false,
-					headerTintColor: '#e91e63',
+		<RootStack.Navigator
+			screenOptions={{
+				headerMode: 'screen',
+				headerTitleAlign: 'center',
+				headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
+				cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+				gestureEnabled: true,
+				gestureDirection: 'horizontal',
+				headerBackTitleVisible: false,
+				headerTintColor: '#e91e63',
+				...Platform.select({
+					android: {
+						headerStatusBarHeight: StatusBar.currentHeight,
+					},
+				}),
+				headerStyle: {
 					...Platform.select({
 						android: {
-							headerStatusBarHeight: StatusBar.currentHeight,
+							elevation: 0,
+							borderBottomWidth: StyleSheet.hairlineWidth,
 						},
 					}),
-					headerStyle: {
-						...Platform.select({
-							android: {
-								elevation: 0,
-								borderBottomWidth: StyleSheet.hairlineWidth,
-							},
-						}),
-					},
-					headerMode: 'float',
-				}}>
-				<Stack.Screen
-					name="BottomTabs"
-					component={BottomTabs}
-					options={{ headerTitle: 'Home' }}
-				/>
-				<Stack.Screen
-					name="Category"
-					component={Category}
-					options={{ headerTitle: 'Category' }}
-				/>
-				<Stack.Screen
-					name="Album"
-					component={Album}
-					options={getAlbumOptions}
-				/>
-			</Stack.Navigator>
+				},
+				headerMode: 'float',
+			}}>
+			<RootStack.Screen
+				name="BottomTabs"
+				component={BottomTabs}
+				options={{
+					headerTitle: 'Home',
+				}}
+			/>
+			<RootStack.Screen
+				name="Category"
+				component={Category}
+				options={{ headerTitle: 'Category' }}
+			/>
+			<RootStack.Screen
+				name="Album"
+				component={Album}
+				options={getAlbumOptions}
+			/>
+		</RootStack.Navigator>
+	)
+}
+
+const styles = StyleSheet.create({
+	headerBackground: {
+		flex: 1,
+		backgroundColor: 'transparent',
+	},
+})
+
+const Navigator = () => {
+	return (
+		<NavigationContainer>
+			<ModalStackScreen />
 		</NavigationContainer>
 	)
 }

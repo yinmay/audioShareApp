@@ -10,7 +10,9 @@ export default class extends React.Component {
 			<Provider store={store}>
 				<Navigator />
 				<StatusBar
-					backgroundColor="transparent"
+					hidden={false}
+					backgroundColor="rgba(0, 0, 0, 0)"
+					// backgroundColor="transparent"
 					barStyle="dark-content"
 					translucent
 					animated={true}

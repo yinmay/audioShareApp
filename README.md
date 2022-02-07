@@ -30,6 +30,10 @@ yarn android // for android simulator
 
 <img src="./src/assets/images/screenshot.png" width = "200" alt="screenshot" />
 
+<video id="video" controls="" preload="none" poster="封面">
+      <source id="mp4" src="./src/assets/videos/video.mp4" type="video/mp4">
+</videos>
+
 ## Technologies
 
 Project is created with:
